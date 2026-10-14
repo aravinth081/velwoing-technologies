@@ -1,0 +1,4025 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="description" content="VELOWINGS LEARNING TECHNOLOGIES — Learn. Build. Grow. Empowering Students for a Smarter Tomorrow. Explore technology, digital skills, webinars, and verified certificates.">
+  <meta name="keywords" content="Velowings, Velowings Learning Technologies, Learn Build Grow, Empowering Students for a Smarter Tomorrow, AI Tools, Web Design, Non-Coding Careers, Digital Skills, Career Growth, EdTech, Webinar, Certificate Verification">
+  <title>VELOWINGS LEARNING TECHNOLOGIES — Learn. Build. Grow.</title>
+  
+  <link rel="icon" type="image/svg+xml" href="logo-icon.svg">
+  <link rel="alternate icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo-icon.svg">
+
+  <!-- Premium Typography: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800&family=Poppins:wght@500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <!-- PDF Generation & Certificate Engine Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="cert-engine.js?v=20261014"></script>
+
+  <style>
+    /* ── VELOWINGS CENTRALIZED DESIGN SYSTEM ── */
+    :root {
+      /* Primary Brand Theme Colors */
+      --bg-main: #FFFFFF;
+      --bg-secondary: #F5FAFF;
+      --navy-primary: #0B2D5C;
+      --blue-secondary: #123F7A;
+      --blue-bright: #1684D8;
+      --blue-light: #D9EEFF;
+      --blue-pale: #EDF7FF;
+      
+      /* Typography Colors */
+      --text-primary: #142D4E;
+      --text-secondary: #526780;
+      --text-muted: #7E92A9;
+      --white: #FFFFFF;
+      
+      /* UI Accents & Borders */
+      --border-color: #D6E5F3;
+      --border-light: #E8F2FA;
+      --accent-subtle: #55B8F0;
+      --accent-glow: rgba(22, 132, 216, 0.18);
+      
+      /* Elevating Shadows */
+      --shadow-xs: 0 2px 6px rgba(11, 45, 92, 0.04);
+      --shadow-sm: 0 4px 14px rgba(11, 45, 92, 0.06);
+      --shadow-md: 0 10px 30px rgba(11, 45, 92, 0.08);
+      --shadow-lg: 0 20px 48px rgba(11, 45, 92, 0.12);
+      
+      /* Geometry */
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --radius-pill: 9999px;
+      
+      /* Fonts */
+      --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      overflow-x: clip;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.65;
+      position: relative;
+    }
+
+    /* Seamless scroll offset for all sections so header never covers headings */
+    section, .scroll-section {
+      scroll-margin-top: 92px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* ── FOCUS ACCESSIBILITY ── */
+    :focus-visible {
+      outline: 2px solid var(--blue-bright);
+      outline-offset: 3px;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C2DAEF;
+      border-radius: var(--radius-pill);
+      border: 2px solid var(--bg-secondary);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--blue-bright);
+    }
+
+    /* ── CONTAINER ── */
+    .container {
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── NAVIGATION HEADER ── */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(11, 45, 92, 0.04);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 74px;
+      gap: 16px;
+    }
+
+    /* Brand Logo & Name */
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .brand-logo-wrap {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--bg-main) 0%, var(--blue-pale) 100%);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .brand:hover .brand-logo-wrap {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(22, 132, 216, 0.2);
+    }
+
+    .brand-logo-wrap svg, .brand-logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 2px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      line-height: 1.15;
+    }
+
+    .brand-name {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.2rem;
+      line-height: 1.15;
+      color: var(--navy-primary);
+      letter-spacing: -0.3px;
+      white-space: nowrap;
+    }
+
+    .brand-name span {
+      color: var(--blue-bright);
+    }
+
+    .brand-sub {
+      font-size: 0.63rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    /* Nav Links */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-link {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--navy-primary);
+      padding: 7px 11px;
+      border-radius: 8px;
+      position: relative;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.2;
+    }
+
+    .nav-link:hover {
+      color: var(--blue-bright);
+      background-color: var(--blue-pale);
+    }
+
+    .nav-link.active {
+      color: var(--blue-bright);
+      font-weight: 600;
+      background-color: var(--blue-pale);
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 10px;
+      right: 10px;
+      height: 2px;
+      background: var(--blue-bright);
+      border-radius: 2px;
+    }
+
+    /* Nav Actions */
+    .nav-action {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .btn-header-admin {
+      height: 38px;
+      padding: 0 14px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      border-radius: 9px;
+      border: 1.5px solid var(--border-color);
+      color: var(--navy-primary);
+      background: var(--white);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(11, 45, 92, 0.04);
+      cursor: pointer;
+    }
+
+    .btn-header-admin:hover {
+      border-color: var(--blue-bright);
+      color: var(--blue-bright);
+      background: var(--blue-pale);
+      transform: translateY(-1px);
+    }
+
+    .btn-header-verify {
+      height: 38px;
+      padding: 0 16px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      border-radius: 9px;
+      background: var(--blue-bright);
+      color: var(--white);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      text-decoration: none;
+      border: none;
+      box-shadow: 0 4px 12px rgba(22, 132, 216, 0.28);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-header-verify:hover {
+      background: #1173be;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(22, 132, 216, 0.36);
+    }
+
+    /* Primary & Secondary Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      font-weight: 600;
+      padding: 11px 22px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background-color: var(--blue-bright);
+      color: var(--white);
+      box-shadow: 0 4px 14px rgba(22, 132, 216, 0.28);
+    }
+
+    .btn-primary:hover {
+      background-color: #1274C2;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(22, 132, 216, 0.35);
+      color: var(--white);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background-color: var(--white);
+      color: var(--navy-primary);
+      border: 1.5px solid var(--border-color);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--blue-bright);
+      color: var(--blue-bright);
+      background-color: var(--blue-pale);
+      transform: translateY(-2px);
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .btn-lg {
+      padding: 14px 28px;
+      font-size: 1rem;
+      border-radius: var(--radius-md);
+    }
+
+    /* Mobile Hamburger */
+    .mobile-menu-btn {
+      display: none;
+      width: 42px;
+      height: 42px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      cursor: pointer;
+      padding: 9px;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--navy-primary);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile Drawer */
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 300px;
+      height: 100vh;
+      background: var(--white);
+      box-shadow: -10px 0 40px rgba(11, 45, 92, 0.15);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .mobile-drawer.open {
+      right: 0;
+    }
+
+    .mobile-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+
+    .drawer-close {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--navy-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      list-style: none;
+    }
+
+    .mobile-nav-links a {
+      display: block;
+      padding: 12px 16px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--navy-primary);
+      border-radius: var(--radius-sm);
+    }
+
+    .mobile-nav-links a:hover, .mobile-nav-links a.active {
+      background: var(--blue-pale);
+      color: var(--blue-bright);
+    }
+
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 45, 92, 0.3);
+      backdrop-filter: blur(4px);
+      z-index: 1999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .drawer-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ── SECTION BASICS ── */
+    .section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .section-alt {
+      background-color: var(--bg-secondary);
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 56px auto;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: var(--radius-pill);
+      background: var(--blue-pale);
+      border: 1px solid var(--blue-light);
+      color: var(--blue-bright);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--blue-bright);
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 2.35rem;
+      font-weight: 700;
+      color: var(--navy-primary);
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── HERO SECTION ── */
+    .hero {
+      padding: 160px 0 100px 0;
+      position: relative;
+      background: radial-gradient(circle at 85% 20%, rgba(217, 238, 255, 0.45) 0%, rgba(255, 255, 255, 0) 55%),
+                  radial-gradient(circle at 10% 70%, rgba(237, 247, 255, 0.7) 0%, rgba(255, 255, 255, 0) 50%);
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-tagline-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue-pale);
+      border: 1.5px solid var(--blue-light);
+      padding: 6px 16px;
+      border-radius: var(--radius-pill);
+      color: var(--blue-bright);
+      font-weight: 700;
+      font-size: 0.84rem;
+      letter-spacing: 0.6px;
+      margin-bottom: 22px;
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.35rem, 3.8vw, 3.15rem);
+      font-weight: 800;
+      color: var(--navy-primary);
+      line-height: 1.18;
+      letter-spacing: -0.6px;
+      margin-bottom: 18px;
+      text-wrap: balance;
+    }
+
+    .hero-title span {
+      color: var(--blue-bright);
+      display: inline-block;
+    }
+
+    .hero-subheading {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--blue-secondary);
+      margin-bottom: 14px;
+      letter-spacing: -0.2px;
+      line-height: 1.35;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 560px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* Hero Visual Card Stack */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-visual-card {
+      width: 100%;
+      background: var(--white);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      z-index: 2;
+    }
+
+    .visual-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .visual-brand-tag {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .visual-brand-tag svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .visual-brand-title {
+      font-family: var(--font-heading);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--navy-primary);
+    }
+
+    .visual-live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: #E8F8EE;
+      color: #15803D;
+      border-radius: var(--radius-pill);
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .live-dot-pulse {
+      width: 6px;
+      height: 6px;
+      background: #16A34A;
+      border-radius: 50%;
+    }
+
+    .visual-preview-body {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .preview-head {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--blue-bright);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .preview-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy-primary);
+      margin-bottom: 8px;
+    }
+
+    .preview-text {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .visual-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .visual-metric-box {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: center;
+    }
+
+    .metric-val {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy-primary);
+    }
+
+    .metric-lbl {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Abstract decorative shapes behind hero card */
+    .shape-blob-1 {
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 220px;
+      height: 220px;
+      background: linear-gradient(135deg, var(--blue-light) 0%, rgba(217, 238, 255, 0.2) 100%);
+      border-radius: 50%;
+      filter: blur(40px);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .shape-blob-2 {
+      position: absolute;
+      bottom: -40px;
+      left: -40px;
+      width: 260px;
+      height: 260px;
+      background: linear-gradient(135deg, rgba(85, 184, 240, 0.25) 0%, rgba(22, 132, 216, 0.1) 100%);
+      border-radius: 50%;
+      filter: blur(50px);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ── ABOUT SECTION ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about-content .section-title {
+      text-align: left;
+    }
+
+    .about-statement-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue-pale);
+      border: 1px solid var(--blue-light);
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+      color: var(--blue-bright);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      margin-bottom: 14px;
+    }
+
+    .about-org-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--blue-secondary);
+      margin-bottom: 16px;
+    }
+
+    .about-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 24px;
+    }
+
+    .about-pillars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .pillar-item {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow-xs);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .pillar-item:hover {
+      transform: translateY(-2px);
+      border-color: var(--blue-bright);
+    }
+
+    .pillar-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--blue-pale);
+      color: var(--blue-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .pillar-title {
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy-primary);
+      margin-bottom: 4px;
+    }
+
+    .pillar-text {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* About Visual Card Side */
+    .about-visual-box {
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--blue-pale) 100%);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    .about-graphic-wrap {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .about-feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .about-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--navy-primary);
+      background: var(--white);
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .check-icon-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #D9EEFF;
+      color: var(--blue-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ── OFFICIAL LEARNING AREAS (5 CARDS) ── */
+    .learning-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    /* Special layout for 5 cards: 3 in row 1, 2 centered in row 2 */
+    .learning-card-4 {
+      grid-column: 1 / 2;
+    }
+
+    .learning-card-5 {
+      grid-column: 2 / 3;
+    }
+
+    @media (min-width: 992px) {
+      .learning-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+      .learning-card-1 { grid-column: span 2; }
+      .learning-card-2 { grid-column: span 2; }
+      .learning-card-3 { grid-column: span 2; }
+      .learning-card-4 { grid-column: 2 / span 2; }
+      .learning-card-5 { grid-column: 4 / span 2; }
+    }
+
+    .learning-card {
+      background: var(--white);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .learning-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--blue-bright);
+      box-shadow: 0 16px 36px rgba(22, 132, 216, 0.15);
+    }
+
+    .learning-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .learning-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--blue-pale);
+      border: 1px solid var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue-bright);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .learning-card:hover .learning-icon-box {
+      background: var(--blue-bright);
+      color: var(--white);
+    }
+
+    .learning-card-num {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: var(--bg-secondary);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    .learning-card-title {
+      font-family: var(--font-heading);
+      font-size: 1.32rem;
+      font-weight: 700;
+      color: var(--navy-primary);
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .learning-card-desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      flex-grow: 1;
+    }
+
+    .learning-card-footer {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--blue-bright);
+    }
+
+    /* ── DEDICATED WEBINAR SECTION ── */
+    .webinar-card {
+      background: var(--white);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .webinar-top-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .webinar-org-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue-pale);
+      border: 1px solid var(--blue-light);
+      color: var(--blue-bright);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .webinar-title {
+      font-family: var(--font-heading);
+      font-size: 2.15rem;
+      font-weight: 800;
+      color: var(--navy-primary);
+      margin-bottom: 12px;
+      letter-spacing: -0.4px;
+    }
+
+    .webinar-supporting-text {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 650px;
+      line-height: 1.7;
+    }
+
+    .webinar-badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #E8F8EE;
+      border: 1px solid #B8E8C7;
+      color: #15803D;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* 3 Clean Information Blocks */
+    .webinar-blocks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin: 36px 0;
+    }
+
+    .info-block {
+      background: var(--bg-secondary);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .info-block:hover {
+      transform: translateY(-3px);
+      border-color: var(--blue-bright);
+      background: var(--blue-pale);
+    }
+
+    .info-block-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      color: var(--blue-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .info-block-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-block-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .info-block-value {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy-primary);
+      margin-top: 2px;
+    }
+
+    .webinar-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 28px;
+      border-top: 1px solid var(--border-light);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .webinar-action-text {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+    }
+
+    /* ── DIGITAL SKILLS SECTION ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .skill-card {
+      background: var(--white);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s ease;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--blue-bright);
+      box-shadow: var(--shadow-md);
+    }
+
+    .skill-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--blue-pale);
+      color: var(--blue-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .skill-title {
+      font-family: var(--font-heading);
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--navy-primary);
+      margin-bottom: 8px;
+    }
+
+    .skill-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── CERTIFICATE VERIFICATION PORTAL SECTION ── */
+    .cert-section {
+      background: linear-gradient(180deg, var(--white) 0%, var(--bg-secondary) 100%);
+    }
+
+    .cert-box {
+      background: var(--white);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      box-shadow: var(--shadow-lg);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .cert-inputs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .cert-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .cert-input-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--navy-primary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .cert-required {
+      color: #E11D48;
+      font-weight: 700;
+    }
+
+    .cert-input-wrap {
+      width: 100%;
+      position: relative;
+    }
+
+    .cert-input {
+      width: 100%;
+      height: 52px;
+      background: var(--bg-secondary);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0 18px 0 46px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--navy-primary);
+      transition: all 0.25s ease;
+    }
+
+    .cert-input:focus {
+      outline: none;
+      border-color: var(--blue-bright);
+      background: var(--white);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .cert-input-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-generate-cert {
+      min-height: 52px;
+      padding: 14px 40px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      box-shadow: 0 8px 24px rgba(22, 132, 216, 0.28);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .btn-generate-cert:hover {
+      box-shadow: 0 12px 30px rgba(22, 132, 216, 0.38);
+      transform: translateY(-2px);
+    }
+
+    /* ── CERTIFICATE INPUT HELPER TEXT ── */
+    .cert-input-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      padding-left: 2px;
+      font-style: italic;
+      letter-spacing: 0.01em;
+      line-height: 1.4;
+    }
+
+    /* ── CERTIFICATE VALIDATION & STATUS ALERTS ── */
+    .cert-input.is-invalid {
+      border-color: #EF4444 !important;
+      background: #FFF5F5 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+      animation: certInputShake 0.4s ease-in-out;
+    }
+
+    .cert-input.is-valid {
+      border-color: #10B981 !important;
+      background: #F0FDF4 !important;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+    }
+
+    @keyframes certInputShake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    @keyframes certAlertSlideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .cert-alert-container {
+      margin-top: 20px;
+      animation: certAlertSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      text-align: left;
+    }
+
+    .cert-alert-box {
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      display: flex;
+      gap: 16px;
+      position: relative;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .cert-alert-danger {
+      background: #FFF5F5;
+      border: 1.5px solid #FECACA;
+    }
+
+    .cert-alert-success {
+      background: #F0FDF4;
+      border: 1.5px solid #BBF7D0;
+    }
+
+    .cert-alert-icon-col {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .cert-alert-danger .cert-alert-icon-col {
+      background: #FEE2E2;
+      border: 1px solid #FCA5A5;
+      color: #DC2626;
+    }
+
+    .cert-alert-success .cert-alert-icon-col {
+      background: #DCFCE7;
+      border: 1px solid #86EFAC;
+      color: #16A34A;
+    }
+
+    .cert-alert-body-col {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cert-alert-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .cert-alert-danger .cert-alert-pill {
+      background: #FEE2E2;
+      color: #B91C1C;
+    }
+
+    .cert-alert-success .cert-alert-pill {
+      background: #DCFCE7;
+      color: #15803D;
+    }
+
+    .cert-alert-headline {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .cert-alert-danger .cert-alert-headline {
+      color: #991B1B;
+    }
+
+    .cert-alert-success .cert-alert-headline {
+      color: #166534;
+    }
+
+    .cert-alert-desc {
+      font-size: 0.92rem;
+      line-height: 1.55;
+      margin-bottom: 12px;
+      color: #475569;
+    }
+
+    .cert-alert-guidance {
+      background: #FFFFFF;
+      border: 1px solid #FEE2E2;
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.83rem;
+      color: #64748B;
+    }
+
+    .cert-alert-guidance-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .cert-alert-guidance-bullet {
+      color: #EF4444;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .cert-alert-btn-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-alert-retry {
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 0.86rem;
+      font-weight: 600;
+      background: #DC2626;
+      color: #FFFFFF;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-alert-retry:hover {
+      background: #B91C1C;
+    }
+
+    .btn-alert-contact {
+      padding: 7px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.86rem;
+      font-weight: 600;
+      background: #FFFFFF;
+      color: #0B2D5C;
+      border: 1px solid #D6E5F3;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-alert-contact:hover {
+      background: #F5FAFF;
+      border-color: #1684D8;
+    }
+
+    .cert-btn-spinner {
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(255, 255, 255, 0.35);
+      border-top-color: #FFFFFF;
+      border-radius: 50%;
+      display: inline-block;
+      animation: certSpin 0.75s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    @keyframes certSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* SweetAlert2 Theme Customization */
+    .cert-swal-popup {
+      border-radius: 20px !important;
+      padding: 24px !important;
+      font-family: var(--font-body) !important;
+      box-shadow: 0 20px 60px rgba(11, 45, 92, 0.18) !important;
+      border: 1px solid #D6E5F3 !important;
+    }
+
+    .cert-swal-popup .swal2-title {
+      font-family: var(--font-heading) !important;
+      font-size: 1.35rem !important;
+      font-weight: 700 !important;
+      color: var(--navy-primary) !important;
+    }
+
+    .cert-features-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .cert-feat-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--navy-primary);
+    }
+
+    .cert-feat-icon {
+      color: var(--blue-bright);
+      flex-shrink: 0;
+    }
+
+    /* ── CONTACT SECTION ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 50px;
+      align-items: flex-start;
+    }
+
+    .contact-info-card {
+      background: var(--white);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .contact-info-title {
+      font-family: var(--font-heading);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--navy-primary);
+      margin-bottom: 12px;
+    }
+
+    .contact-info-desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    .contact-meta-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .contact-meta-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .meta-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--blue-pale);
+      color: var(--blue-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .meta-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .meta-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .meta-val {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--navy-primary);
+      margin-top: 2px;
+    }
+
+    /* Contact Form */
+    .contact-form-card {
+      background: var(--white);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--navy-primary);
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      height: 48px;
+      background: var(--bg-secondary);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0 16px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--navy-primary);
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--blue-bright);
+      background: var(--white);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    textarea.form-control {
+      height: 120px;
+      padding: 14px 16px;
+      resize: vertical;
+    }
+
+    .form-submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .form-success-alert {
+      display: none;
+      padding: 14px 18px;
+      background: #E8F8EE;
+      border: 1px solid #B8E8C7;
+      color: #15803D;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--white);
+      border-top: 1px solid var(--border-color);
+      padding: 80px 0 40px 0;
+      position: relative;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr 1.2fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand-col .brand {
+      margin-bottom: 16px;
+    }
+
+    .footer-statement {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 16px;
+      max-width: 320px;
+    }
+
+    .footer-tagline {
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--blue-bright);
+      letter-spacing: 0.4px;
+    }
+
+    .footer-col-title {
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      color: var(--blue-bright);
+      transform: translateX(3px);
+    }
+
+    .footer-bottom {
+      padding-top: 32px;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    /* ── MODAL: CERTIFICATE PREVIEW & DOWNLOAD ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 45, 92, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      cursor: pointer;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-container {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 25px 60px rgba(11, 45, 92, 0.25);
+      border: 1px solid var(--border-color);
+      width: 100%;
+      max-width: 960px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalPop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: default;
+    }
+
+    @keyframes modalPop {
+      0% { transform: scale(0.95); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-light);
+      background: var(--bg-secondary);
+    }
+
+    .modal-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .modal-title {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy-primary);
+    }
+
+    .modal-badge {
+      padding: 4px 10px;
+      background: var(--blue-pale);
+      border: 1px solid var(--blue-light);
+      border-radius: var(--radius-pill);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--blue-bright);
+    }
+
+    .modal-close-btn {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--navy-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close-btn:hover {
+      background: #FFEBEB;
+      color: #E11D48;
+      border-color: #FECDD3;
+    }
+
+    .modal-body {
+      padding: 24px 28px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cert-canvas-wrap {
+      width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(11, 45, 92, 0.1);
+      border: 1.5px solid var(--border-color);
+      background: var(--white);
+      display: flex;
+      justify-content: center;
+    }
+
+    #certModalCanvas {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-width: 100%;
+    }
+
+    /* ── DEDICATED NAME ALIGNMENT CONTROLLER (X & Y AXIS) ── */
+    .cert-align-panel {
+      width: 100%;
+      margin-top: 18px;
+      background: #06152B;
+      border: 1.5px solid #1684D8;
+      border-radius: 14px;
+      padding: 16px 20px;
+      box-shadow: 0 10px 30px rgba(11, 45, 92, 0.25);
+      color: #FFFFFF;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .cert-align-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 14px;
+    }
+
+    .cert-align-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cert-align-icon {
+      font-size: 1.3rem;
+      background: rgba(22, 132, 216, 0.2);
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(22, 132, 216, 0.4);
+    }
+
+    .cert-align-heading {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.3px;
+    }
+
+    .cert-align-sub {
+      font-size: 0.75rem;
+      color: #8EB7DB;
+    }
+
+    .cert-align-presets {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-preset {
+      background: rgba(22, 132, 216, 0.15);
+      border: 1px solid #1684D8;
+      color: #55B8F0;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-preset:hover {
+      background: #1684D8;
+      color: #FFFFFF;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(22, 132, 216, 0.35);
+    }
+
+    .btn-preset-gold {
+      background: rgba(234, 179, 8, 0.15);
+      border-color: #EAB308;
+      color: #FACC15;
+    }
+
+    .btn-preset-gold:hover {
+      background: #EAB308;
+      color: #06152B;
+      box-shadow: 0 4px 12px rgba(234, 179, 8, 0.4);
+    }
+
+    .btn-preset-reset {
+      background: rgba(148, 163, 184, 0.12);
+      border-color: rgba(148, 163, 184, 0.3);
+      color: #94A3B8;
+    }
+
+    .btn-preset-reset:hover {
+      background: #475569;
+      color: #FFFFFF;
+    }
+
+    .cert-align-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .cert-align-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .axis-control-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .axis-control-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .axis-label-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .axis-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .axis-tag-x {
+      background: #0284C7;
+      color: #FFFFFF;
+    }
+
+    .axis-tag-y {
+      background: #D97706;
+      color: #FFFFFF;
+    }
+
+    .axis-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #E2E8F0;
+    }
+
+    .axis-badge-val {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.88rem;
+      font-weight: 700;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 3px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #38BDF8;
+    }
+
+    .axis-badge-val-gold {
+      color: #FBBF24;
+    }
+
+    .axis-slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .axis-range-input {
+      flex: 1;
+      height: 8px;
+      border-radius: 4px;
+      outline: none;
+      -webkit-appearance: none;
+      background: #1E293B;
+      cursor: pointer;
+    }
+
+    .axis-range-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #38BDF8;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+      border: 2px solid #FFFFFF;
+      transition: transform 0.1s ease;
+    }
+
+    .axis-range-input::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .axis-range-y::-webkit-slider-thumb {
+      background: #F59E0B;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+    }
+
+    .axis-nudge-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .btn-nudge {
+      flex: 1;
+      padding: 6px 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #CBD5E1;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+      user-select: none;
+    }
+
+    .btn-nudge:hover {
+      background: rgba(22, 132, 216, 0.3);
+      border-color: #38BDF8;
+      color: #FFFFFF;
+    }
+
+    .btn-nudge:active {
+      transform: scale(0.95);
+    }
+
+    .axis-target-hint {
+      font-size: 0.7rem;
+      color: #94A3B8;
+      text-align: center;
+      padding: 2px 0;
+    }
+
+    .modal-footer {
+      padding: 20px 28px;
+      border-top: 1px solid var(--border-light);
+      background: var(--bg-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .modal-dl-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ── RESPONSIVE MEDIA QUERIES ── */
+    @media (max-width: 1100px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .hero-title {
+        font-size: 2.6rem;
+      }
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 1140px) and (min-width: 961px) {
+      .header-inner {
+        gap: 8px;
+      }
+      .nav-link {
+        padding: 6px 8px;
+        font-size: 0.82rem;
+      }
+      .nav-links {
+        gap: 2px;
+      }
+      .btn-header-admin {
+        padding: 0 10px;
+        font-size: 0.8rem;
+      }
+      .btn-header-verify {
+        padding: 0 12px;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .header-inner {
+        height: 68px;
+      }
+      .nav, .nav-action .btn-header-admin, .nav-action .btn-header-verify {
+        display: none !important;
+      }
+      .mobile-menu-btn {
+        display: flex;
+      }
+      .section {
+        padding: 60px 0;
+      }
+      .hero {
+        padding: 105px 0 60px 0;
+      }
+      .hero-title {
+        font-size: 2.15rem;
+        line-height: 1.22;
+      }
+      .about-grid, .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .webinar-blocks-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .learning-grid {
+        grid-template-columns: 1fr !important;
+        gap: 18px;
+      }
+      .learning-card-1, .learning-card-2, .learning-card-3, .learning-card-4, .learning-card-5 {
+        grid-column: auto !important;
+      }
+      .learning-card {
+        padding: 24px 20px;
+      }
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+      .cert-box, .webinar-card {
+        padding: 24px 18px;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 16px;
+      }
+      .header-inner {
+        height: 64px;
+        padding: 0 4px;
+      }
+      .brand-logo-wrap {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+      }
+      .brand-name {
+        font-size: 1.1rem;
+      }
+      .brand-sub {
+        font-size: 0.58rem;
+        letter-spacing: 1px;
+      }
+      .header .btn {
+        width: auto !important;
+        padding: 8px 14px;
+        font-size: 12.5px;
+        white-space: nowrap;
+      }
+      .hero {
+        padding: 86px 0 48px 0;
+      }
+      .hero-title {
+        font-size: clamp(1.85rem, 6.5vw, 2.25rem);
+      }
+      .hero-sub {
+        font-size: 0.95rem;
+      }
+      .hero-metrics {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .cert-card-preview {
+        padding: 16px 14px;
+      }
+      .modal-container {
+        width: 95vw;
+        max-height: 94vh;
+        margin: auto;
+        border-radius: 18px;
+      }
+      .modal-header {
+        padding: 14px 16px;
+      }
+      .modal-title {
+        font-size: 1.05rem;
+      }
+      .modal-body {
+        padding: 14px 14px;
+      }
+      .modal-footer {
+        padding: 14px 16px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .modal-dl-actions {
+        width: 100%;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .modal-dl-actions .btn {
+        width: 100% !important;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .cert-inputs-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .btn-generate-cert {
+        width: 100%;
+        min-height: 48px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+      .hero-actions .btn {
+        width: 100%;
+      }
+      .cert-inputs-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .btn-generate-cert {
+        width: 100%;
+        min-height: 48px;
+      }
+      .cert-features-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .about-pillars {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .contact-form .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── HEADER & NAVIGATION ── -->
+  <header class="header" id="navbar">
+    <div class="container">
+      <div class="header-inner">
+        <!-- Logo & Organization Name -->
+        <a href="#home" class="brand" aria-label="VELOWINGS LEARNING TECHNOLOGIES Home">
+          <div class="brand-logo-wrap">
+            <img src="logo-icon.png" alt="VELOWINGS Logo" style="width:100%;height:100%;object-fit:contain;padding:3px;">
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">VELO<span>WINGS</span></span>
+            <span class="brand-sub">LEARNING TECHNOLOGIES</span>
+          </div>
+        </a>
+
+
+        <!-- Desktop Navigation: Section Links -->
+        <nav class="nav" aria-label="Main Navigation">
+          <ul class="nav-links">
+            <li><a href="#home" class="nav-link active">Home</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#learning" class="nav-link">Learning Areas</a></li>
+            <li><a href="#webinars" class="nav-link">Live Webinars</a></li>
+            <li><a href="#skills" class="nav-link">Digital Skills</a></li>
+            <li><a href="#contact" class="nav-link">Contact Us</a></li>
+          </ul>
+        </nav>
+
+        <!-- Right Header Action -->
+        <div class="nav-action">
+          <a href="control.html" class="btn-header-admin" target="_blank" title="Open Admin Console">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 8h10"/><path d="M7 12h10"/><path d="M7 16h10"/>
+            </svg>
+            <span>Admin Console</span>
+          </a>
+          <a href="#certificates" class="btn-header-verify">
+            <span>Verify Certificate</span>
+            <span style="font-size:13px;line-height:1;">→</span>
+          </a>
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── MOBILE NAVIGATION DRAWER ── -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobile menu">
+    <div class="mobile-drawer-header">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <img src="logo-icon.png" alt="Logo" style="width:36px;height:36px;object-fit:contain;padding:2px;">
+        <div class="brand-text">
+          <span class="brand-name">VELO<span>WINGS</span></span>
+          <span class="brand-sub">LEARNING TECHNOLOGIES</span>
+        </div>
+      </div>
+      <button class="drawer-close" id="drawerCloseBtn" aria-label="Close menu">✕</button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="#home" class="mobile-nav-item">Home</a></li>
+      <li><a href="#about" class="mobile-nav-item">About</a></li>
+      <li><a href="#learning" class="mobile-nav-item">Learning Areas</a></li>
+      <li><a href="#webinars" class="mobile-nav-item">Live Webinars</a></li>
+      <li><a href="#skills" class="mobile-nav-item">Digital Skills</a></li>
+      <li><a href="#certificates" class="mobile-nav-item">Verify Certificate</a></li>
+      <li><a href="#contact" class="mobile-nav-item">Contact Us</a></li>
+      <li>
+        <a href="control.html" class="mobile-nav-item" target="_blank" style="color:var(--blue-bright);font-weight:700;display:flex;align-items:center;justify-content:space-between;padding-top:14px;margin-top:6px;border-top:1px solid var(--border-light);">
+          <span>⚙️ Admin Console</span>
+          <span style="font-size:11px;background:var(--blue-pale);padding:2px 8px;border-radius:6px;border:1px solid var(--border-color);color:var(--blue-bright);">Dashboard</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main>
+    <!-- ── 6. HERO SECTION ── -->
+    <section class="hero scroll-section" id="home">
+      <div class="container">
+        <div class="hero-grid">
+          <!-- Left Column Content -->
+          <div class="hero-content">
+            <div class="hero-tagline-badge">
+              <span class="badge-dot"></span>
+              <span>Learn. Build. Grow.</span>
+            </div>
+            
+            <h1 class="hero-title">
+              Empowering Students for a <span>Smarter Tomorrow</span>
+            </h1>
+
+            <h2 class="hero-subheading">Practical Technology &amp; Future Skills Exploration</h2>
+
+            <p class="hero-desc">
+              Explore technology, develop practical skills, discover learning opportunities, and prepare for a smarter future with VELOWINGS LEARNING TECHNOLOGIES.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#learning" class="btn btn-primary btn-lg">Explore Learning</a>
+              <a href="#about" class="btn btn-secondary btn-lg">Discover VELOWINGS LEARNING TECHNOLOGIES</a>
+            </div>
+          </div>
+
+          <!-- Right Column Visual Card -->
+          <div class="hero-visual">
+            <div class="shape-blob-1"></div>
+            <div class="shape-blob-2"></div>
+            
+            <div class="hero-visual-card">
+              <div class="visual-top-bar">
+                <div class="visual-brand-tag">
+                  <img src="logo-icon.png" alt="Logo" style="width:26px;height:26px;object-fit:contain;border-radius:6px;background:#fff;padding:1px;">
+                  <span class="visual-brand-title">VELOWINGS LEARNING TECHNOLOGIES</span>
+                </div>
+                <div class="visual-live-indicator">
+                  <span class="live-dot-pulse"></span>
+                  <span>Active Session</span>
+                </div>
+              </div>
+
+              <div class="visual-preview-body">
+                <div style="text-align:center;margin:6px 0 16px 0;background:#ffffff;padding:12px;border-radius:14px;border:1px solid var(--border-light);box-shadow:0 4px 14px rgba(11,45,92,0.04);">
+                  <img src="logo.png" alt="VELOWINGS Official 3D Logo" style="max-width:260px;width:100%;height:auto;display:inline-block;filter:drop-shadow(0 4px 10px rgba(11,45,92,0.06));">
+                </div>
+                <div class="preview-head">LIVE WEBINAR FOCUS</div>
+                <h3 class="preview-title">Empowering Students for a Smarter Tomorrow</h3>
+                <p class="preview-text">
+                  Practical technology exploration covering modern AI Tools, Web Design, and emerging digital careers for forward-thinking learners.
+                </p>
+              </div>
+
+              <div class="visual-metrics-grid">
+                <div class="visual-metric-box">
+                  <div class="metric-val">1 Hour</div>
+                  <div class="metric-lbl">Duration</div>
+                </div>
+                <div class="visual-metric-box">
+                  <div class="metric-val">Online</div>
+                  <div class="metric-lbl">Live Mode</div>
+                </div>
+                <div class="visual-metric-box">
+                  <div class="metric-val">Verified</div>
+                  <div class="metric-lbl">Credential</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 9. ABOUT SECTION ── -->
+    <section class="section section-alt scroll-section" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <!-- Text Content -->
+          <div class="about-content">
+            <div class="about-statement-badge">
+              <span>Learn. Build. Grow.</span>
+            </div>
+            <h2 class="section-title">About VELOWINGS LEARNING TECHNOLOGIES</h2>
+            <div class="about-org-name">VELOWINGS LEARNING TECHNOLOGIES</div>
+            
+            <p class="about-desc">
+              VELOWINGS LEARNING TECHNOLOGIES focuses on empowering students through technology awareness, digital skills, learning opportunities, and career development.
+            </p>
+            <p class="about-desc">
+              Our goal is to encourage continuous learning, practical exploration, and preparation for a technology-driven future.
+            </p>
+
+            <!-- Key Pillars -->
+            <div class="about-pillars">
+              <div class="pillar-item">
+                <div class="pillar-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                  </svg>
+                </div>
+                <h3 class="pillar-title">Technology Awareness</h3>
+                <p class="pillar-text">Demystifying modern tech tools and modern artificial intelligence.</p>
+              </div>
+
+              <div class="pillar-item">
+                <div class="pillar-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                </div>
+                <h3 class="pillar-title">Practical Exploration</h3>
+                <p class="pillar-text">Hands-on exposure that translates theoretical interest into capability.</p>
+              </div>
+
+              <div class="pillar-item">
+                <div class="pillar-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                  </svg>
+                </div>
+                <h3 class="pillar-title">Career Readiness</h3>
+                <p class="pillar-text">Guiding pathways across coding, design, and non-coding careers.</p>
+              </div>
+
+              <div class="pillar-item">
+                <div class="pillar-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                  </svg>
+                </div>
+                <h3 class="pillar-title">Verified Credentials</h3>
+                <p class="pillar-text">Authentic digital certificates supporting student portfolios.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column Abstract Educational Graphic Card -->
+          <div class="about-visual-box">
+            <div class="badge-pill">
+              <span class="badge-dot"></span>
+              <span>Educational Technology Focus</span>
+            </div>
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--navy-primary); margin-bottom: 12px;">
+              Empowering Students for a Smarter Tomorrow
+            </h3>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.65;">
+              By bridging accessible education with industry-relevant skills, VELOWINGS enables students to build confidence and navigate the evolving technological landscape.
+            </p>
+
+            <ul class="about-feature-list">
+              <li class="about-feature-item">
+                <span class="check-icon-circle">✓</span>
+                <span>Student-friendly interactive learning sessions</span>
+              </li>
+              <li class="about-feature-item">
+                <span class="check-icon-circle">✓</span>
+                <span>Focus on practical digital capabilities</span>
+              </li>
+              <li class="about-feature-item">
+                <span class="check-icon-circle">✓</span>
+                <span>Exploration of diverse technology careers</span>
+              </li>
+              <li class="about-feature-item">
+                <span class="check-icon-circle">✓</span>
+                <span>Recognized certificate of completion</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 7. OFFICIAL LEARNING AREAS (5 CARDS) ── -->
+    <section class="section scroll-section" id="learning">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge-pill">
+            <span class="badge-dot"></span>
+            <span>Core Curriculum</span>
+          </div>
+          <h2 class="section-title">Official Learning Areas</h2>
+          <p class="section-desc">
+            Explore the essential technology areas featured in the VELOWINGS educational curriculum, designed to foster practical competency and innovation.
+          </p>
+        </div>
+
+        <!-- 5 Visually Consistent Cards -->
+        <div class="learning-grid">
+          <!-- CARD 1: AI Tools -->
+          <div class="learning-card learning-card-1">
+            <div class="learning-card-header">
+              <div class="learning-icon-box">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+                  <path d="M12 6v6l4 2"/>
+                  <path d="M16 8l-8 8"/>
+                </svg>
+              </div>
+              <span class="learning-card-num">AREA 01</span>
+            </div>
+            <h3 class="learning-card-title">AI Tools</h3>
+            <p class="learning-card-desc">
+              Discover AI tools and explore how artificial intelligence can support learning, creativity, and productivity.
+            </p>
+            <div class="learning-card-footer">
+              <span>Interactive Exploration</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- CARD 2: Web Design -->
+          <div class="learning-card learning-card-2">
+            <div class="learning-card-header">
+              <div class="learning-icon-box">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                  <line x1="8" y1="21" x2="16" y2="21"/>
+                  <line x1="12" y1="17" x2="12" y2="21"/>
+                  <line x1="2" y1="7" x2="22" y2="7"/>
+                </svg>
+              </div>
+              <span class="learning-card-num">AREA 02</span>
+            </div>
+            <h3 class="learning-card-title">Web Design</h3>
+            <p class="learning-card-desc">
+              Explore modern web design concepts and develop an understanding of attractive, usable, and responsive websites.
+            </p>
+            <div class="learning-card-footer">
+              <span>UI/UX & Aesthetics</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- CARD 3: Non-Coding Careers -->
+          <div class="learning-card learning-card-3">
+            <div class="learning-card-header">
+              <div class="learning-icon-box">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="8.5" cy="7" r="4"/>
+                  <polyline points="17 11 19 13 23 9"/>
+                </svg>
+              </div>
+              <span class="learning-card-num">AREA 03</span>
+            </div>
+            <h3 class="learning-card-title">Non-Coding Careers</h3>
+            <p class="learning-card-desc">
+              Discover technology-related career opportunities that do not necessarily require traditional programming skills.
+            </p>
+            <div class="learning-card-footer">
+              <span>Diverse Pathways</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- CARD 4: Digital Skills -->
+          <div class="learning-card learning-card-4">
+            <div class="learning-card-header">
+              <div class="learning-icon-box">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                  <polyline points="2 17 12 22 22 17"/>
+                  <polyline points="2 12 12 17 22 12"/>
+                </svg>
+              </div>
+              <span class="learning-card-num">AREA 04</span>
+            </div>
+            <h3 class="learning-card-title">Digital Skills</h3>
+            <p class="learning-card-desc">
+              Explore essential digital skills for learning, collaboration, communication, and professional development.
+            </p>
+            <div class="learning-card-footer">
+              <span>Core Competency</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- CARD 5: Career Growth -->
+          <div class="learning-card learning-card-5">
+            <div class="learning-card-header">
+              <div class="learning-icon-box">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="19" x2="12" y2="5"/>
+                  <polyline points="5 12 12 5 19 12"/>
+                </svg>
+              </div>
+              <span class="learning-card-num">AREA 05</span>
+            </div>
+            <h3 class="learning-card-title">Career Growth</h3>
+            <p class="learning-card-desc">
+              Discover learning opportunities and strategies for developing professional skills and preparing for future careers.
+            </p>
+            <div class="learning-card-footer">
+              <span>Professional Future</span>
+              <span>→</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 8. WEBINAR SECTION ── -->
+    <section class="section section-alt scroll-section" id="webinars">
+      <div class="container">
+        <div class="webinar-card">
+          <div class="webinar-top-row">
+            <div>
+              <div class="webinar-org-badge">
+                <span>VELOWINGS LEARNING TECHNOLOGIES</span>
+              </div>
+              <h2 class="webinar-title">Online Live Webinar</h2>
+              <p class="webinar-supporting-text">
+                Learn, explore, and grow through technology-focused learning opportunities with VELOWINGS LEARNING TECHNOLOGIES.
+              </p>
+            </div>
+            <div>
+              <span class="webinar-badge-status">
+                <span class="live-dot-pulse"></span>
+                <span>Scheduled Session</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- 3 Clean Information Blocks with Blue Icons -->
+          <div class="webinar-blocks-grid">
+            <!-- Block 1: Date -->
+            <div class="info-block">
+              <div class="info-block-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
+              <div class="info-block-content">
+                <span class="info-block-label">Date</span>
+                <span class="info-block-value">October 15, 2026</span>
+              </div>
+            </div>
+
+            <!-- Block 2: Duration -->
+            <div class="info-block">
+              <div class="info-block-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <div class="info-block-content">
+                <span class="info-block-label">Duration</span>
+                <span class="info-block-value">1 Hour</span>
+              </div>
+            </div>
+
+            <!-- Block 3: Mode -->
+            <div class="info-block">
+              <div class="info-block-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="23 7 16 12 23 17 23 7"/>
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                </svg>
+              </div>
+              <div class="info-block-content">
+                <span class="info-block-label">Mode</span>
+                <span class="info-block-value">Online (Live Webinar)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="webinar-action-row">
+            <span class="webinar-action-text">
+              Official certificate issued upon verified webinar attendance & session completion.
+            </span>
+            <a href="#certificates" class="btn btn-primary">
+              Verify / Claim Webinar Certificate
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DIGITAL SKILLS SHOWCASE ── -->
+    <section class="section scroll-section" id="skills">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge-pill">
+            <span class="badge-dot"></span>
+            <span>Skill Advancement</span>
+          </div>
+          <h2 class="section-title">Essential Digital Skills</h2>
+          <p class="section-desc">
+            Empowering students with foundational technical fluencies required across modern academia, creative industries, and digital workplaces.
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+            </div>
+            <h3 class="skill-title">Digital Literacy</h3>
+            <p class="skill-desc">Understanding software workflows, cloud collaboration tools, and structured data handling.</p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+              </svg>
+            </div>
+            <h3 class="skill-title">Practical AI Skills</h3>
+            <p class="skill-desc">Prompt engineering, generative creativity, workflow automation, and responsible ethical AI.</p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <h3 class="skill-title">Communication</h3>
+            <p class="skill-desc">Clear digital articulation, technical documentation, and professional communication standards.</p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </div>
+            <h3 class="skill-title">Web & Interface</h3>
+            <p class="skill-desc">Visual hierarchy, accessible layout principles, responsiveness, and user experience basics.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CERTIFICATE VERIFICATION & DOWNLOAD PORTAL ── -->
+    <section class="section cert-section scroll-section" id="certificates">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge-pill">
+            <span class="badge-dot"></span>
+            <span>Credential Verification</span>
+          </div>
+          <h2 class="section-title">Certificate Verification & Download</h2>
+          <p class="section-desc">
+            Instantly preview and download high-resolution verified certificates issued by VELOWINGS LEARNING TECHNOLOGIES for webinar participants and learners.
+          </p>
+        </div>
+
+        <div class="cert-box">
+          <div style="text-align: center; margin-bottom: 28px;">
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; color: var(--navy-primary); margin-bottom: 8px;">
+              Enter Participant Full Name &amp; Registered Email
+            </h3>
+            <p style="font-size: 0.93rem; color: var(--text-secondary); max-width: 620px; margin: 0 auto;">
+              Enter your credentials to verify your webinar participation and generate your official 300 DPI high-resolution Certificate of Participation.
+            </p>
+          </div>
+
+          <form id="certSearchForm" onsubmit="event.preventDefault(); generateCertificatePreview();">
+            <div class="cert-inputs-grid">
+              <!-- Full Name Input -->
+              <div class="cert-input-group">
+                <label for="certNameInput" class="cert-input-label">
+                  <span>Participant Full Name</span>
+                  <span class="cert-required">*</span>
+                </label>
+                <div class="cert-input-wrap">
+                  <span class="cert-input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                  </span>
+                  <input 
+                    type="text" 
+                    id="certNameInput" 
+                    class="cert-input" 
+                    placeholder="Enter your full name" 
+                    autocomplete="name"
+                  >
+                </div>
+                <p class="cert-input-hint">As it should appear on your certificate</p>
+              </div>
+
+              <!-- Email ID Input -->
+              <div class="cert-input-group">
+                <label for="certEmailInput" class="cert-input-label">
+                  <span>Registered Email Address</span>
+                  <span class="cert-required">*</span>
+                </label>
+                <div class="cert-input-wrap">
+                  <span class="cert-input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect width="20" height="16" x="2" y="4" rx="2"/>
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                    </svg>
+                  </span>
+                  <input 
+                    type="email" 
+                    id="certEmailInput" 
+                    class="cert-input" 
+                    placeholder="Enter your registered email" 
+                    required 
+                    autocomplete="email"
+                  >
+                </div>
+                <p class="cert-input-hint">The email you used during webinar registration</p>
+              </div>
+            </div>
+
+            <!-- Dynamic Registration Status Alert -->
+            <div id="certStatusAlert" class="cert-alert-container" style="display: none;"></div>
+
+            <!-- Submit Button Row -->
+            <div style="margin-top: 24px; display: flex; justify-content: center;">
+              <button type="submit" class="btn btn-primary btn-generate-cert" id="generateCertBtn">
+                <span>View &amp; Download Certificate</span>
+                <span style="font-size: 1.15rem;">→</span>
+              </button>
+            </div>
+          </form>
+
+          <div class="cert-features-row">
+            <div class="cert-feat-item">
+              <span class="cert-feat-icon">✓</span>
+              <span>Print-Ready A4 300 DPI Resolution</span>
+            </div>
+            <div class="cert-feat-item">
+              <span class="cert-feat-icon">✓</span>
+              <span>Instant PNG & PDF Generation</span>
+            </div>
+            <div class="cert-feat-item">
+              <span class="cert-feat-icon">✓</span>
+              <span>Official Organization Seal & Signatures</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTACT SECTION ── -->
+    <section class="section scroll-section" id="contact">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge-pill">
+            <span class="badge-dot"></span>
+            <span>Get In Touch</span>
+          </div>
+          <h2 class="section-title">Connect with VELOWINGS LEARNING TECHNOLOGIES</h2>
+          <p class="section-desc">
+            Have questions about upcoming webinars, educational modules, or institutional collaborations? Reach out to our team.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Info Column -->
+          <div class="contact-info-card">
+            <h3 class="contact-info-title">VELOWINGS LEARNING TECHNOLOGIES</h3>
+            <p class="contact-info-desc">
+              Dedicated to empowering students for a smarter tomorrow through accessible, modern technology learning opportunities.
+            </p>
+
+            <div class="contact-meta-list">
+              <div class="contact-meta-item">
+                <div class="meta-icon-box">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  </svg>
+                </div>
+                <div class="meta-content">
+                  <span class="meta-label">Brand Statement</span>
+                  <span class="meta-val">Empowering Students for a Smarter Tomorrow</span>
+                </div>
+              </div>
+
+              <div class="contact-meta-item">
+                <div class="meta-icon-box">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                </div>
+                <div class="meta-content">
+                  <span class="meta-label">Official Tagline</span>
+                  <span class="meta-val">Learn. Build. Grow.</span>
+                </div>
+              </div>
+
+              <div class="contact-meta-item">
+                <div class="meta-icon-box">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="23 7 16 12 23 17 23 7"/>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                  </svg>
+                </div>
+                <div class="meta-content">
+                  <span class="meta-label">Webinar Session</span>
+                  <span class="meta-val">Online (Live Webinar) · October 15, 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Column -->
+          <div class="contact-form-card">
+            <div class="form-success-alert" id="formSuccessAlert">
+              Thank you for reaching out! Your message has been received by VELOWINGS LEARNING TECHNOLOGIES.
+            </div>
+
+            <form id="contactForm" onsubmit="event.preventDefault(); submitContactForm();">
+              <div class="form-group">
+                <label for="contactName" class="form-label">Full Name</label>
+                <input type="text" id="contactName" class="form-control" placeholder="Your name" required>
+              </div>
+
+              <div class="form-group">
+                <label for="contactEmail" class="form-label">Email Address</label>
+                <input type="email" id="contactEmail" class="form-control" placeholder="name@example.com" required>
+              </div>
+
+              <div class="form-group">
+                <label for="contactSubject" class="form-label">Subject</label>
+                <input type="text" id="contactSubject" class="form-control" placeholder="Inquiry topic (e.g., Webinar information)" required>
+              </div>
+
+              <div class="form-group">
+                <label for="contactMessage" class="form-label">Message</label>
+                <textarea id="contactMessage" class="form-control" placeholder="How can VELOWINGS support your learning journey?" required></textarea>
+              </div>
+
+              <div class="form-submit-row">
+                <button type="submit" class="btn btn-primary" id="contactSubmitBtn">Send Inquiry</button>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">We typically respond within 24 hours.</span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── 12. FOOTER REDESIGN ── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Col 1: Brand Info -->
+        <div class="footer-brand-col">
+          <a href="#home" class="brand">
+            <div class="brand-logo-wrap">
+              <img src="logo-icon.png" alt="VELOWINGS Logo" style="width:100%;height:100%;object-fit:contain;padding:3px;">
+            </div>
+            <div class="brand-text">
+              <span class="brand-name">VELO<span>WINGS</span></span>
+              <span class="brand-sub">LEARNING TECHNOLOGIES</span>
+            </div>
+          </a>
+          <p class="footer-statement">
+            Empowering Students for a Smarter Tomorrow.
+          </p>
+          <div class="footer-tagline">
+            Learn. Build. Grow.
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation Links -->
+        <div>
+          <h4 class="footer-col-title">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About VELOWINGS LEARNING TECHNOLOGIES</a></li>
+            <li><a href="#learning">Learning Areas</a></li>
+            <li><a href="#webinars">Live Webinars</a></li>
+            <li><a href="#skills">Digital Skills</a></li>
+            <li><a href="#certificates">Verify Certificate</a></li>
+            <li><a href="control.html" target="_blank" style="color:var(--blue-bright);font-weight:600;">Admin Console</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Core Areas -->
+        <div>
+          <h4 class="footer-col-title">Learning Areas</h4>
+          <ul class="footer-links">
+            <li><a href="#learning">AI Tools</a></li>
+            <li><a href="#learning">Web Design</a></li>
+            <li><a href="#learning">Non-Coding Careers</a></li>
+            <li><a href="#learning">Digital Skills</a></li>
+            <li><a href="#learning">Career Growth</a></li>
+          </ul>
+        </div>
+
+
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 VELOWINGS LEARNING TECHNOLOGIES. All rights reserved.</span>
+        <span>Learn. Build. Grow. · Empowering Students for a Smarter Tomorrow.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── MODAL: VERIFIED CERTIFICATE PREVIEW ── -->
+  <div class="modal-overlay" id="certModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <h3 class="modal-title" id="modalTitle">Official Digital Certificate Preview</h3>
+            <span class="modal-badge">Verified Credential</span>
+          </div>
+          <div id="modalParticipantInfo" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px; font-weight: 500;">
+            Aravinth S · aravinth@example.com
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="closeCertModal()" aria-label="Close certificate modal">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="cert-canvas-wrap">
+          <canvas id="certModalCanvas"></canvas>
+        </div>
+
+        <!-- ── DEDICATED NAME ALIGNMENT CONTROLLER (X & Y AXIS) ── -->
+        <div class="cert-align-panel" id="certAlignPanel">
+          <div class="cert-align-header">
+            <div class="cert-align-title-group">
+              <span class="cert-align-icon">🎛️</span>
+              <div>
+                <div class="cert-align-heading">Name Alignment Controller (X-Axis &amp; Y-Axis)</div>
+                <div class="cert-align-sub">Move position live with sliders or 1px / 10px micro-nudge buttons</div>
+              </div>
+            </div>
+            <div class="cert-align-presets">
+              <button type="button" class="btn-preset btn-preset-gold" onclick="setAlignPreset('touch-gold')">
+                ✨ Touch Gold Line (1195px)
+              </button>
+              <button type="button" class="btn-preset" onclick="setAlignPreset('center-x')">
+                ↔ Center X (1754px)
+              </button>
+              <button type="button" class="btn-preset btn-preset-reset" onclick="resetAlignDefault()">
+                ↺ Reset Default
+              </button>
+            </div>
+          </div>
+
+          <div class="cert-align-grid">
+            <!-- X-AXIS CONTROLLER -->
+            <div class="axis-control-card">
+              <div class="axis-control-header">
+                <div class="axis-label-wrap">
+                  <span class="axis-tag axis-tag-x">X-Axis</span>
+                  <span class="axis-name">Horizontal Position</span>
+                </div>
+                <span class="axis-badge-val" id="align-val-x">1754px (50.0%)</span>
+              </div>
+              <div class="axis-slider-wrap">
+                <input type="range" class="axis-range-input" id="align-slider-x" min="1000" max="2500" step="1" value="1754" oninput="onAlignInputChange('x', this.value)">
+              </div>
+              <div class="axis-nudge-row">
+                <button type="button" class="btn-nudge" onclick="nudgeAlign('x', -10)" title="Shift 10px Left">⏪ -10px</button>
+                <button type="button" class="btn-nudge" onclick="nudgeAlign('x', -1)" title="Shift 1px Left">◀ -1px</button>
+                <button type="button" class="btn-nudge" onclick="setAlignPreset('center-x')" title="Reset Center">Center</button>
+                <button type="button" class="btn-nudge" onclick="nudgeAlign('x', 1)" title="Shift 1px Right">+1px ▶</button>
+                <button type="button" class="btn-nudge" onclick="nudgeAlign('x', 10)" title="Shift 10px Right">+10px ⏩</button>
+              </div>
+              <div class="axis-target-hint">Center = 1754px (50%) · Left &lt; 1754 · Right &gt; 1754</div>
+            </div>
+
+            <!-- Y-AXIS CONTROLLER -->
+            <div class="axis-control-card">
+              <div class="axis-control-header">
+                <div class="axis-label-wrap">
+                  <span class="axis-tag axis-tag-y">Y-Axis</span>
+                  <span class="axis-name">Vertical Position</span>
+                </div>
+                <span class="axis-badge-val axis-badge-val-gold" id="align-val-y">1195px (48.2%)</span>
+              </div>
+              <div class="axis-slider-wrap">
+                <input type="range" class="axis-range-input axis-range-y" id="align-slider-y" min="950" max="1450" step="1" value="1195" oninput="onAlignInputChange('y', this.value)">
+              </div>
+              <div class="axis-nudge-row">
+                <button type="button" class="btn-nudge" onclick="nudgeAlign('y', -10)" title="Shift 10px Up">⏫ -10px</button>
+                <button type="button" class="btn-nudge" onclick="nudgeAlign('y', -1)" title="Shift 1px Up">▲ -1px</button>
+                <button type="button" class="btn-nudge" onclick="setAlignPreset('touch-gold')" style="border-color:#EAB308;color:#FACC15;" title="Touch Gold Line">Touch Line</button>
+                <button type="button" class="btn-nudge" onclick="nudgeAlign('y', 1)" title="Shift 1px Down">+1px ▼</button>
+                <button type="button" class="btn-nudge" onclick="nudgeAlign('y', 10)" title="Shift 10px Down">+10px ⏬</button>
+              </div>
+              <div class="axis-target-hint" style="color:#FBBF24;">✨ 1195px (48.2%) = Touches Gold Line Perfectly</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <span style="font-size: 0.85rem; color: var(--text-secondary);">
+          A4 Landscape · 300 DPI High-Resolution Output
+        </span>
+        <div class="modal-dl-actions">
+          <button class="btn btn-secondary btn-sm" onclick="downloadCertPNG()">
+            📷 Download PNG (300 DPI)
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="downloadCertPDF()">
+            📄 Download Official PDF
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCRIPTS ── -->
+  <script>
+    /* ── MOBILE DRAWER CONTROLLER ── */
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const drawerCloseBtn = document.getElementById('drawerCloseBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+
+    function openMobileDrawer() {
+      mobileDrawer.classList.add('open');
+      drawerOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileDrawer() {
+      mobileDrawer.classList.remove('open');
+      drawerOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileDrawer);
+    if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeMobileDrawer);
+    if (drawerOverlay) drawerOverlay.addEventListener('click', closeMobileDrawer);
+
+    document.querySelectorAll('.mobile-nav-item').forEach(link => {
+      link.addEventListener('click', closeMobileDrawer);
+    });
+
+    /* ── ACTIVE NAV STATE ON SCROLL ── */
+    const sections = document.querySelectorAll('.scroll-section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    window.addEventListener('scroll', () => {
+      let current = 'home';
+      const scrollY = window.pageYOffset;
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        const sectionHeight = section.offsetHeight;
+        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    }, { passive: true });
+
+    /* ── FIREBASE & SYNC WITH ADMIN PANEL ── */
+    const FB = {
+      apiKey: "AIzaSyBToCmnDiNMO0wailCEdIz_jj7NgMgY6Ys",
+      authDomain: "knowledgevault-ai.firebaseapp.com",
+      projectId: "knowledgevault-ai",
+      storageBucket: "knowledgevault-ai.firebasestorage.app",
+      measurementId: "G-WSNLKD00BW"
+    };
+    let db = null;
+    try {
+      if (typeof firebase !== 'undefined') {
+        if (!firebase.apps.length) firebase.initializeApp(FB);
+        db = firebase.firestore();
+      }
+    } catch (e) {}
+
+    /* ── INDESTRUCTIBLE TEMPLATE STORAGE (IndexedDB) ── */
+    const TplDB = {
+      dbPromise: null,
+      getDB() {
+        if (!this.dbPromise) {
+          this.dbPromise = new Promise((resolve, reject) => {
+            const req = indexedDB.open('NextGenTemplatesDB', 1);
+            req.onupgradeneeded = () => {
+              const d = req.result;
+              if (!d.objectStoreNames.contains('templates')) {
+                d.createObjectStore('templates');
+              }
+            };
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => reject(req.error);
+          });
+        }
+        return this.dbPromise;
+      },
+      async get(key) {
+        try {
+          const d = await this.getDB();
+          return new Promise((resolve, reject) => {
+            const tx = d.transaction('templates', 'readonly');
+            const req = tx.objectStore('templates').get(key);
+            req.onsuccess = () => resolve(req.result || null);
+            req.onerror = () => reject(req.error);
+          });
+        } catch (e) { return null; }
+      },
+      async set(key, val) {
+        try {
+          const d = await this.getDB();
+          return new Promise((resolve, reject) => {
+            const tx = d.transaction('templates', 'readwrite');
+            tx.objectStore('templates').put(val, key);
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = () => reject(tx.error);
+          });
+        } catch (e) { return false; }
+      }
+    };
+
+    // Auto-sync template & Name Y position set in Admin Panel
+    async function syncAdminTemplate() {
+      if (!db) return;
+      try {
+        const tDoc = await db.collection('custom_templates').doc('participation').get();
+        if (tDoc.exists && tDoc.data().url) {
+          const adminTpl = tDoc.data().url;
+          localStorage.setItem('tpl_participation', adminTpl);
+          await TplDB.set('participation', adminTpl);
+        }
+        const cfgDoc = await db.collection('admin').doc('config').get();
+        if (cfgDoc.exists) {
+          const cfg = cfgDoc.data();
+          if (cfg.templateNameY && cfg.templateNameY.participation) {
+            const y = cfg.templateNameY.participation;
+            localStorage.setItem('tpl_nameY_px_participation', y);
+            localStorage.setItem('tpl_nameY_participation', (y / 2480 * 100).toFixed(1));
+            if (window.CertEngine && CertEngine.CONFIGS.participation) {
+              CertEngine.CONFIGS.participation.nameY = y;
+            }
+          } else {
+            localStorage.setItem('tpl_nameY_px_participation', 1195);
+            localStorage.setItem('tpl_nameY_participation', '48.2');
+            if (window.CertEngine && CertEngine.CONFIGS.participation) {
+              CertEngine.CONFIGS.participation.nameY = 1195;
+            }
+          }
+
+          if (cfg.templateNameX && cfg.templateNameX.participation) {
+            const x = cfg.templateNameX.participation;
+            localStorage.setItem('tpl_nameX_px_participation', x);
+            localStorage.setItem('tpl_nameX_participation', (x / 3508 * 100).toFixed(1));
+            if (window.CertEngine && CertEngine.CONFIGS.participation) {
+              CertEngine.CONFIGS.participation.nameX = x;
+            }
+          } else {
+            localStorage.setItem('tpl_nameX_px_participation', 1754);
+            localStorage.setItem('tpl_nameX_participation', '50.0');
+            if (window.CertEngine && CertEngine.CONFIGS.participation) {
+              CertEngine.CONFIGS.participation.nameX = 1754;
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Admin template sync in portal:', e);
+      }
+    }
+    syncAdminTemplate();
+
+    /* ── CERTIFICATE PREVIEW & DOWNLOAD CONTROLLER ── */
+    let currentParticipantName = '';
+    let currentParticipantEmail = '';
+    const certModalCanvas = document.getElementById('certModalCanvas');
+    const certModal = document.getElementById('certModal');
+
+    /* ── PARTICIPANT ROSTER VERIFICATION ── */
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function clearCertAlert() {
+      const alertEl = document.getElementById('certStatusAlert');
+      if (alertEl) {
+        alertEl.style.display = 'none';
+        alertEl.innerHTML = '';
+      }
+      const emailInput = document.getElementById('certEmailInput');
+      const nameInput = document.getElementById('certNameInput');
+      if (emailInput) {
+        emailInput.classList.remove('is-invalid');
+        emailInput.classList.remove('is-valid');
+      }
+      if (nameInput) {
+        nameInput.classList.remove('is-invalid');
+        nameInput.classList.remove('is-valid');
+      }
+    }
+
+    function retryCertSearch() {
+      clearCertAlert();
+      const emailInput = document.getElementById('certEmailInput');
+      if (emailInput) {
+        emailInput.focus();
+        emailInput.select();
+      }
+    }
+
+    function showNotRegisteredAlert(email) {
+      const alertEl = document.getElementById('certStatusAlert');
+      const cleanEmail = escapeHtml(email);
+      if (alertEl) {
+        alertEl.style.display = 'block';
+        alertEl.innerHTML = `
+          <div class="cert-alert-box cert-alert-danger">
+            <div class="cert-alert-icon-col">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="15" y1="9" x2="9" y2="15"></line>
+                <line x1="9" y1="9" x2="15" y2="15"></line>
+              </svg>
+            </div>
+            <div class="cert-alert-body-col">
+              <div class="cert-alert-pill">Verification Failed</div>
+              <h4 class="cert-alert-headline">Not Registered</h4>
+              <p class="cert-alert-desc">
+                The email address <strong>${cleanEmail}</strong> was not found in our verified participant database.
+                Certificates can only be generated for participants whose email IDs are fed into the <strong>Admin Panel</strong>.
+              </p>
+              <div class="cert-alert-guidance">
+                <div class="cert-alert-guidance-item">
+                  <span class="cert-alert-guidance-bullet">•</span>
+                  <span>Please check for any typos or extra spaces in your email address.</span>
+                </div>
+                <div class="cert-alert-guidance-item">
+                  <span class="cert-alert-guidance-bullet">•</span>
+                  <span>Ensure you are using the exact email ID submitted during registration.</span>
+                </div>
+                <div class="cert-alert-guidance-item">
+                  <span class="cert-alert-guidance-bullet">•</span>
+                  <span>If you attended the webinar and your record is missing, please contact the administrator.</span>
+                </div>
+              </div>
+              <div class="cert-alert-btn-row">
+                <button type="button" class="btn-alert-retry" onclick="retryCertSearch()">
+                  <span>Try Another Email</span>
+                </button>
+                <a href="#contact" class="btn-alert-contact">
+                  <span>Contact Admin</span>
+                  <span>→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+        alertEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Also trigger SweetAlert2 modal popup
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Not Registered',
+          html: `
+            <div style="text-align:left;font-family:'Inter',sans-serif;color:#475569;font-size:0.95rem;line-height:1.6;">
+              <p style="margin-bottom:12px;">
+                The email address <strong style="color:#0B2D5C;word-break:break-all;">${cleanEmail}</strong> was <strong>not found</strong> in the registered participant roster.
+              </p>
+              <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:12px 14px;margin-bottom:12px;color:#991B1B;font-size:0.86rem;line-height:1.5;">
+                🔒 <strong>Restricted Access:</strong> Certificates can only be generated for participants whose email IDs have been fed into the <strong>Admin Panel</strong>.
+              </div>
+              <p style="font-size:0.84rem;color:#64748B;margin:0;">
+                Please verify your email address or contact the event administrators to update your registration status.
+              </p>
+            </div>
+          `,
+          confirmButtonText: 'Check Email & Try Again',
+          confirmButtonColor: '#0B2D5C',
+          background: '#FFFFFF',
+          customClass: {
+            popup: 'cert-swal-popup'
+          }
+        });
+      }
+    }
+
+    function showRegisteredSuccessAlert(name) {
+      const alertEl = document.getElementById('certStatusAlert');
+      const safeName = escapeHtml(name);
+      if (alertEl) {
+        alertEl.style.display = 'block';
+        alertEl.innerHTML = `
+          <div class="cert-alert-box cert-alert-success">
+            <div class="cert-alert-icon-col">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="cert-alert-body-col">
+              <div class="cert-alert-pill">Verified Participant</div>
+              <h4 class="cert-alert-headline">Registration Confirmed!</h4>
+              <p class="cert-alert-desc" style="margin-bottom:0;">
+                Welcome, <strong>${safeName}</strong>! Your webinar participation is verified. Generating your official 300 DPI Certificate of Participation...
+              </p>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    async function checkParticipantRegistration(rawEmail) {
+      if (!rawEmail) return { registered: false, reason: 'empty' };
+      const cleanEmail = rawEmail.trim().toLowerCase();
+
+      // 1. Check local storage cache (fastest response)
+      try {
+        const local = localStorage.getItem('registered_participants');
+        if (local) {
+          const parts = JSON.parse(local);
+          if (Array.isArray(parts)) {
+            const found = parts.find(p => p && p.email && p.email.trim().toLowerCase() === cleanEmail);
+            if (found) {
+              return {
+                registered: true,
+                name: found.name || '',
+                email: cleanEmail,
+                source: 'local'
+              };
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Local participant check warning:', e);
+      }
+
+      // 2. Check Firestore remote database
+      if (db && typeof db.collection === 'function') {
+        try {
+          // Direct document lookup by doc ID (lowercase email)
+          const docRef = db.collection('participants').doc(cleanEmail);
+          const docSnap = await docRef.get();
+          if (docSnap.exists) {
+            const data = docSnap.data() || {};
+            return {
+              registered: true,
+              name: data.name || '',
+              email: data.email || cleanEmail,
+              source: 'firestore_doc'
+            };
+          }
+        } catch (e) {
+          console.warn('Firestore doc check error:', e);
+        }
+
+        try {
+          // Fallback query where email == cleanEmail
+          const qSnap = await db.collection('participants')
+            .where('email', '==', cleanEmail)
+            .limit(1)
+            .get();
+          if (!qSnap.empty) {
+            const data = qSnap.docs[0].data() || {};
+            return {
+              registered: true,
+              name: data.name || '',
+              email: data.email || cleanEmail,
+              source: 'firestore_query'
+            };
+          }
+        } catch (e) {
+          console.warn('Firestore query check error:', e);
+        }
+
+        // Fast index in admin config (if stored)
+        try {
+          const idxDoc = await db.collection('admin').doc('participants_index').get();
+          if (idxDoc.exists) {
+            const map = idxDoc.data() || {};
+            if (map[cleanEmail]) {
+              const val = map[cleanEmail];
+              return {
+                registered: true,
+                name: typeof val === 'string' ? val : (val.name || ''),
+                email: cleanEmail,
+                source: 'admin_index'
+              };
+            }
+          }
+        } catch (e) {}
+      }
+
+      // If not found in any source
+      return {
+        registered: false,
+        email: cleanEmail,
+        reason: 'not_found'
+      };
+    }
+
+    // Clear error styling dynamically on typing
+    const certEmailInputEl = document.getElementById('certEmailInput');
+    if (certEmailInputEl) {
+      certEmailInputEl.addEventListener('input', () => {
+        if (certEmailInputEl.classList.contains('is-invalid')) {
+          certEmailInputEl.classList.remove('is-invalid');
+          const alertEl = document.getElementById('certStatusAlert');
+          if (alertEl) alertEl.style.display = 'none';
+        }
+      });
+    }
+
+    async function generateCertificatePreview() {
+      const nameInput = document.getElementById('certNameInput');
+      const emailInput = document.getElementById('certEmailInput');
+
+      let enteredName = nameInput ? nameInput.value.trim() : '';
+      const email = emailInput ? emailInput.value.trim().toLowerCase() : '';
+
+      clearCertAlert();
+
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        if (typeof Swal !== 'undefined') {
+          Swal.fire({
+            title: 'Valid Email Required',
+            text: 'Please enter a valid registered email address.',
+            icon: 'warning',
+            confirmButtonColor: '#0B2D5C'
+          });
+        } else {
+          alert('Please enter a valid registered email address.');
+        }
+        if (emailInput) {
+          emailInput.classList.add('is-invalid');
+          emailInput.focus();
+        }
+        return;
+      }
+
+      const btn = document.getElementById('generateCertBtn');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="cert-btn-spinner"></span> <span>Verifying Registration...</span>';
+      }
+
+      try {
+        // Strict verification against Admin Panel feeds (Firestore & LocalStorage)
+        const check = await checkParticipantRegistration(email);
+
+        if (!check.registered) {
+          if (emailInput) {
+            emailInput.classList.add('is-invalid');
+            emailInput.focus();
+          }
+          showNotRegisteredAlert(email);
+          return; // STOP! Certificate is NOT generated!
+        }
+
+        // Participant IS registered!
+        if (emailInput) {
+          emailInput.classList.remove('is-invalid');
+          emailInput.classList.add('is-valid');
+        }
+
+        // Auto-fill official registered name if user didn't enter one
+        if (!enteredName || enteredName.length < 2) {
+          if (check.name) {
+            enteredName = check.name;
+            if (nameInput) nameInput.value = check.name;
+          } else {
+            enteredName = email.split('@')[0];
+            if (nameInput) nameInput.value = enteredName;
+          }
+        }
+
+        showRegisteredSuccessAlert(enteredName);
+
+        if (btn) {
+          btn.innerHTML = '<span class="cert-btn-spinner"></span> <span>Rendering High-Res Credential...</span>';
+        }
+
+        currentParticipantName = enteredName;
+        currentParticipantEmail = email;
+
+        // Resolve exact template set in Admin Panel:
+        // Priority: IndexedDB (TplDB) -> LocalStorage -> Project Template File
+        let adminTemplate = await TplDB.get('participation');
+        if (!adminTemplate) {
+          adminTemplate = localStorage.getItem('tpl_participation');
+        }
+        if (!adminTemplate) {
+          adminTemplate = 'https://res.cloudinary.com/utmjfg3s/image/upload/v1791914460/xdwc0inggaepgkctcrrg.jpg';
+        }
+
+        if (window.CertEngine && typeof window.CertEngine.renderFull === 'function') {
+          await window.CertEngine.renderFull(certModalCanvas, adminTemplate, enteredName, 'participation');
+        }
+
+        const infoEl = document.getElementById('modalParticipantInfo');
+        if (infoEl) {
+          infoEl.textContent = `${enteredName} · ${email}`;
+        }
+
+        // Store credential generation history locally & in Firestore for instant admin reflection
+        try {
+          const certRecord = {
+            name: enteredName,
+            email: email,
+            type: 'participation',
+            certId: 'VELO-' + Math.random().toString(36).substring(2, 8).toUpperCase(),
+            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            createdAt: new Date().toISOString()
+          };
+          let genList = JSON.parse(localStorage.getItem('generated_certificates') || '[]');
+          genList.push(certRecord);
+          localStorage.setItem('generated_certificates', JSON.stringify(genList));
+
+          if (typeof firebase !== 'undefined' && firebase.firestore) {
+            const db = firebase.firestore();
+            db.collection('certificates').add(certRecord).catch(() => {});
+          }
+        } catch(e) {}
+
+        // Small delay so user sees verified confirmation before modal opens
+        setTimeout(() => {
+          openCertModal();
+        }, 350);
+
+      } catch (err) {
+        console.error('Certificate verification error:', err);
+        if (typeof Swal !== 'undefined') {
+          Swal.fire({
+            title: 'Verification Error',
+            text: 'Could not complete registration verification. Please check your network and try again.',
+            icon: 'error',
+            confirmButtonColor: '#0B2D5C'
+          });
+        }
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<span>View &amp; Download Certificate</span> <span style="font-size:1.15rem;">→</span>';
+        }
+      }
+    }
+
+    /* ── NAME ALIGNMENT CONTROLLER (X & Y AXIS) ── */
+    let currentAlignX = 1754;
+    let currentAlignY = 1195;
+
+    function initAlignController() {
+      try {
+        const pxX = parseInt(localStorage.getItem('tpl_nameX_px_participation'), 10);
+        if (!isNaN(pxX) && pxX > 0) currentAlignX = pxX;
+        else currentAlignX = 1754;
+
+        const pxY = parseInt(localStorage.getItem('tpl_nameY_px_participation'), 10);
+        if (!isNaN(pxY) && pxY > 0 && pxY !== 1337 && pxY !== 1175 && pxY !== 1130 && pxY !== 1080 && pxY !== 1150 && pxY !== 1100) {
+          currentAlignY = pxY;
+        } else {
+          currentAlignY = 1195;
+        }
+      } catch (e) {
+        currentAlignX = 1754;
+        currentAlignY = 1195;
+      }
+
+      updateAlignUI();
+      if (window.CertEngine && CertEngine.CONFIGS && CertEngine.CONFIGS.participation) {
+        CertEngine.CONFIGS.participation.nameX = currentAlignX;
+        CertEngine.CONFIGS.participation.nameY = currentAlignY;
+      }
+    }
+
+    function updateAlignUI() {
+      const sliderX = document.getElementById('align-slider-x');
+      const valX = document.getElementById('align-val-x');
+      const sliderY = document.getElementById('align-slider-y');
+      const valY = document.getElementById('align-val-y');
+
+      if (sliderX) sliderX.value = currentAlignX;
+      if (valX) {
+        const pctX = ((currentAlignX / 3508) * 100).toFixed(1);
+        valX.textContent = `${currentAlignX}px (${pctX}%)`;
+      }
+
+      if (sliderY) sliderY.value = currentAlignY;
+      if (valY) {
+        const pctY = ((currentAlignY / 2480) * 100).toFixed(1);
+        valY.textContent = `${currentAlignY}px (${pctY}%)`;
+      }
+    }
+
+    async function reRenderModalCertificate() {
+      if (!certModalCanvas || !currentParticipantName) return;
+      let adminTemplate = await TplDB.get('participation');
+      if (!adminTemplate) adminTemplate = localStorage.getItem('tpl_participation');
+      if (!adminTemplate) adminTemplate = 'https://res.cloudinary.com/utmjfg3s/image/upload/v1791914460/xdwc0inggaepgkctcrrg.jpg';
+
+      if (window.CertEngine && typeof window.CertEngine.renderFull === 'function') {
+        CertEngine.CONFIGS.participation.nameX = currentAlignX;
+        CertEngine.CONFIGS.participation.nameY = currentAlignY;
+        await window.CertEngine.renderFull(certModalCanvas, adminTemplate, currentParticipantName, 'participation');
+      }
+    }
+
+    let _alignDebounceTimer = null;
+    function onAlignInputChange(axis, val) {
+      const num = parseInt(val, 10);
+      if (isNaN(num)) return;
+      if (axis === 'x') {
+        currentAlignX = num;
+        localStorage.setItem('tpl_nameX_px_participation', currentAlignX);
+        localStorage.setItem('tpl_nameX_participation', ((currentAlignX / 3508) * 100).toFixed(1));
+        if (window.CertEngine && CertEngine.CONFIGS.participation) CertEngine.CONFIGS.participation.nameX = currentAlignX;
+      } else {
+        currentAlignY = num;
+        localStorage.setItem('tpl_nameY_px_participation', currentAlignY);
+        localStorage.setItem('tpl_nameY_participation', ((currentAlignY / 2480) * 100).toFixed(1));
+        if (window.CertEngine && CertEngine.CONFIGS.participation) CertEngine.CONFIGS.participation.nameY = currentAlignY;
+      }
+      updateAlignUI();
+
+      clearTimeout(_alignDebounceTimer);
+      _alignDebounceTimer = setTimeout(reRenderModalCertificate, 30);
+    }
+
+    function nudgeAlign(axis, delta) {
+      if (axis === 'x') {
+        currentAlignX = Math.max(1000, Math.min(2500, currentAlignX + delta));
+        onAlignInputChange('x', currentAlignX);
+      } else {
+        currentAlignY = Math.max(950, Math.min(1450, currentAlignY + delta));
+        onAlignInputChange('y', currentAlignY);
+      }
+    }
+
+    function setAlignPreset(preset) {
+      if (preset === 'touch-gold') {
+        currentAlignY = 1195;
+        onAlignInputChange('y', 1195);
+      } else if (preset === 'center-x') {
+        currentAlignX = 1754;
+        onAlignInputChange('x', 1754);
+      }
+    }
+
+    function resetAlignDefault() {
+      currentAlignX = 1754;
+      currentAlignY = 1195;
+      onAlignInputChange('x', 1754);
+      onAlignInputChange('y', 1195);
+    }
+
+    function openCertModal() {
+      initAlignController();
+      if (certModal) certModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCertModal() {
+      if (certModal) certModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close certificate modal when clicking outside on empty space
+    if (certModal) {
+      certModal.addEventListener('click', (e) => {
+        if (e.target === certModal) {
+          closeCertModal();
+        }
+      });
+    }
+
+    // Close certificate modal with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && certModal && certModal.classList.contains('active')) {
+        closeCertModal();
+      }
+    });
+
+    function downloadCertPNG() {
+      if (!certModalCanvas) return;
+      const filename = `VELOWINGS-Certificate-${currentParticipantName.replace(/\s+/g, '_')}.png`;
+      if (window.CertEngine && typeof window.CertEngine.downloadPNG === 'function') {
+        window.CertEngine.downloadPNG(certModalCanvas, filename);
+      } else {
+        const a = document.createElement('a');
+        a.download = filename;
+        a.href = certModalCanvas.toDataURL('image/png');
+        a.click();
+      }
+    }
+
+    function downloadCertPDF() {
+      if (!certModalCanvas) return;
+      const filename = `VELOWINGS-Certificate-${currentParticipantName.replace(/\s+/g, '_')}.pdf`;
+      if (window.CertEngine && typeof window.CertEngine.downloadPDF === 'function') {
+        window.CertEngine.downloadPDF(certModalCanvas, filename);
+      } else {
+        downloadCertPNG();
+      }
+    }
+
+    /* ── CONTACT FORM INTERACTION ── */
+    function submitContactForm() {
+      const alertBox = document.getElementById('formSuccessAlert');
+      const form = document.getElementById('contactForm');
+      if (alertBox) alertBox.style.display = 'block';
+      if (form) form.reset();
+      setTimeout(() => {
+        if (alertBox) alertBox.style.display = 'none';
+      }, 6000);
+    }
+  </script>
+</body>
+
+</html>

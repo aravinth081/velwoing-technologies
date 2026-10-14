@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Student Distinction & Merit Portal – VELOWINGS LEARNING TECHNOLOGIES</title>
+  <link rel="icon" type="image/svg+xml" href="logo-icon.svg">
+  <link rel="alternate icon" type="image/png" href="logo.png">
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800&family=Poppins:wght@500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Firebase & PDF Libraries -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="cert-engine.js"></script>
+  
+  <style>
+    :root {
+      --bg-main: #FFFFFF;
+      --bg-secondary: #F5FAFF;
+      --navy-primary: #0B2D5C;
+      --blue-secondary: #123F7A;
+      --blue-bright: #1684D8;
+      --blue-light: #D9EEFF;
+      --blue-pale: #EDF7FF;
+      --text-primary: #142D4E;
+      --text-secondary: #526780;
+      --text-muted: #7E92A9;
+      --border-color: #D6E5F3;
+      --border-light: #E8F2FA;
+      --shadow-sm: 0 4px 14px rgba(11, 45, 92, 0.06);
+      --shadow-md: 0 10px 30px rgba(11, 45, 92, 0.08);
+      --shadow-lg: 0 20px 48px rgba(11, 45, 92, 0.12);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --radius-pill: 9999px;
+      --font-heading: 'Poppins', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html, body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── NAVBAR ── */
+    .header {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 4px 20px rgba(11, 45, 92, 0.04);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-logo-wrap {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--blue-pale);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-logo-wrap svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--navy-primary);
+      line-height: 1.1;
+    }
+
+    .brand-name span {
+      color: var(--blue-bright);
+    }
+
+    .brand-sub {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--navy-primary);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .nav-link:hover {
+      background: var(--blue-pale);
+      color: var(--blue-bright);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      border: 1.5px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--blue-bright);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #1274C2;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(22, 132, 216, 0.3);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--navy-primary);
+      border-color: var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--blue-bright);
+      color: var(--blue-bright);
+      background: var(--blue-pale);
+    }
+
+    /* ── PAGE CONTENT ── */
+    .page-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    .portal-hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: var(--radius-pill);
+      background: var(--blue-pale);
+      border: 1px solid var(--blue-light);
+      color: var(--blue-bright);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .page-title {
+      font-family: var(--font-heading);
+      font-size: 2.35rem;
+      font-weight: 800;
+      color: var(--navy-primary);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .page-sub {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* Verification Card */
+    .verify-card {
+      background: var(--white);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+
+    .tiers-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .tier-box {
+      background: var(--bg-secondary);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+    }
+
+    .tier-box-icon {
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+
+    .tier-box-title {
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy-primary);
+    }
+
+    .tier-box-desc {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--navy-primary);
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      height: 50px;
+      background: var(--bg-secondary);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0 16px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--navy-primary);
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--blue-bright);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(22, 132, 216, 0.18);
+    }
+
+    .error-box {
+      display: none;
+      background: #FFF1F2;
+      border: 1px solid #FECDD3;
+      color: #E11D48;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    /* Modal */
+    .wmodal {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 45, 92, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      cursor: pointer;
+    }
+
+    .wmodal.on {
+      display: flex;
+    }
+
+    .wmodal-box {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-lg);
+      cursor: default;
+      width: 100%;
+      max-width: 940px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .wmodal-header {
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-light);
+      background: var(--bg-secondary);
+    }
+
+    .wmodal-header span {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy-primary);
+    }
+
+    .wmodal-close {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--navy-primary);
+    }
+
+    .wmodal-body {
+      padding: 20px 24px;
+      overflow-y: auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .cert-frame {
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      max-width: 100%;
+    }
+
+    #winner-canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .wmodal-footer {
+      padding: 18px 24px;
+      border-top: 1px solid var(--border-light);
+      background: var(--bg-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .header-inner {
+        height: 64px;
+        padding: 0 16px;
+      }
+      .brand-logo-wrap {
+        width: 38px;
+        height: 38px;
+      }
+      .brand-name {
+        font-size: 1.05rem;
+      }
+      .brand-sub {
+        font-size: 0.58rem;
+        letter-spacing: 1px;
+      }
+      .page-wrapper {
+        padding: 36px 16px 60px;
+      }
+      .page-title {
+        font-size: 1.85rem;
+      }
+      .tiers-preview-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .verify-card {
+        padding: 24px 16px;
+      }
+      .verify-card form button {
+        width: 100%;
+      }
+      .wmodal {
+        padding: 10px;
+      }
+      .wmodal-box {
+        max-height: 94vh;
+        border-radius: 16px;
+      }
+      .wmodal-header {
+        padding: 12px 16px;
+      }
+      .wmodal-body {
+        padding: 12px 10px;
+      }
+      .wmodal-footer {
+        padding: 14px 16px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .wmodal-footer .btn {
+        width: 100% !important;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-logo-wrap">
+          <img src="logo-icon.png" alt="VELOWINGS Logo" style="width:100%;height:100%;object-fit:contain;padding:3px;">
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">VELO<span>WINGS</span></span>
+          <span class="brand-sub">LEARNING TECHNOLOGIES</span>
+        </div>
+      </a>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <a href="control.html" class="btn btn-outline btn-sm" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-weight:600;padding:8px 16px;border-radius:10px;">
+          <span>⚙️ Admin Console</span>
+        </a>
+        <a href="index.html" class="btn btn-secondary btn-sm" style="display:inline-flex;align-items:center;gap:6px;font-weight:600;padding:8px 16px;border-radius:10px;">
+          <span>← Back to Home</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Body -->
+  <div class="page-wrapper">
+    <div class="portal-hero">
+      <div class="badge-pill">
+        <span>★ Academic Distinction & Honors</span>
+      </div>
+      <h1 class="page-title">Merit & Honor Verification Portal</h1>
+      <p class="page-sub">
+        Official verification portal for VELOWINGS LEARNING TECHNOLOGIES distinction recipients, merit awardees, and top session contributors.
+      </p>
+    </div>
+
+    <div class="verify-card">
+      <div class="tiers-preview-grid">
+        <div class="tier-box">
+          <div class="tier-box-icon">🥇</div>
+          <div class="tier-box-title">Excellence Award</div>
+          <div class="tier-box-desc">First Rank & Outstanding Project</div>
+        </div>
+        <div class="tier-box">
+          <div class="tier-box-icon">🥈</div>
+          <div class="tier-box-title">High Distinction</div>
+          <div class="tier-box-desc">Second Rank & Exceptional Engagement</div>
+        </div>
+        <div class="tier-box">
+          <div class="tier-box-icon">🥉</div>
+          <div class="tier-box-title">Merit Honors</div>
+          <div class="tier-box-desc">Third Rank & Active Innovation</div>
+        </div>
+      </div>
+
+      <form id="winnerForm" onsubmit="event.preventDefault(); verifyWinnerPasskey();">
+        <div class="form-group">
+          <label for="winnerPasskey" class="form-label">Recipient Full Name or Verification Code</label>
+          <input 
+            type="text" 
+            id="winnerPasskey" 
+            class="form-control" 
+            placeholder="Enter student name or passkey (e.g. Aravinth S)..." 
+            required 
+            value="Aravinth S"
+          >
+        </div>
+
+        <div class="error-box" id="errorBox">
+          Verification code or recipient record not found. Please verify with VELOWINGS academic organizers.
+        </div>
+
+        <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+          <button type="submit" class="btn btn-primary" id="verifyBtn" style="flex: 1;">
+            <span>Authenticate & Generate Distinction Certificate</span>
+            <span>→</span>
+          </button>
+          <a href="index.html" class="btn btn-secondary">Back to Main Website</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Verification Modal -->
+  <div class="wmodal" id="wmodal">
+    <div class="wmodal-box">
+      <div class="wmodal-header">
+        <span>🎓 Verified Certificate of Excellence — VELOWINGS</span>
+        <button class="wmodal-close" onclick="closeWModal()">✕</button>
+      </div>
+
+      <div class="wmodal-body">
+        <div class="cert-frame">
+          <canvas id="winner-canvas"></canvas>
+        </div>
+      </div>
+
+      <div class="wmodal-footer">
+        <span style="font-size: 0.85rem; color: var(--text-secondary);">
+          VELOWINGS Official Academic Distinction Record
+        </span>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-secondary" onclick="dlWinnerPNG()">📷 Download PNG (300 DPI)</button>
+          <button class="btn btn-primary" onclick="dlWinnerPDF()">📄 Download PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let _winnerName = 'Aravinth S';
+    const canvas = document.getElementById('winner-canvas');
+    const modal = document.getElementById('wmodal');
+
+    async function verifyWinnerPasskey() {
+      const input = document.getElementById('winnerPasskey');
+      const val = (input && input.value.trim()) ? input.value.trim() : 'Aravinth S';
+      _winnerName = val;
+
+      const btn = document.getElementById('verifyBtn');
+      btn.innerText = 'Verifying Record...';
+
+      try {
+        if (window.CertEngine && typeof window.CertEngine.renderFull === 'function') {
+          await window.CertEngine.renderFull(canvas, '', _winnerName, 'winner1');
+        }
+        modal.classList.add('on');
+      } catch (err) {
+        console.error(err);
+      } finally {
+        btn.innerHTML = '<span>Authenticate & Generate Distinction Certificate</span> <span>→</span>';
+      }
+    }
+
+    function closeWModal() {
+      modal.classList.remove('on');
+    }
+
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeWModal();
+        }
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal && modal.classList.contains('on')) {
+        closeWModal();
+      }
+    });
+
+    function dlWinnerPNG() {
+      if (window.CertEngine && typeof window.CertEngine.downloadPNG === 'function') {
+        window.CertEngine.downloadPNG(canvas, `VELOWINGS-Distinction-${_winnerName.replace(/\s+/g, '_')}.png`);
+      }
+    }
+
+    function dlWinnerPDF() {
+      if (window.CertEngine && typeof window.CertEngine.downloadPDF === 'function') {
+        window.CertEngine.downloadPDF(canvas, `VELOWINGS-Distinction-${_winnerName.replace(/\s+/g, '_')}.pdf`);
+      }
+    }
+  </script>
+</body>
+
+</html>

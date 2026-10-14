@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" width="400" height="100">
+  <defs>
+    <linearGradient id="vlwGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1684D8"/>
+      <stop offset="60%" stop-color="#123F7A"/>
+      <stop offset="100%" stop-color="#0B2D5C"/>
+    </linearGradient>
+    <linearGradient id="wingGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#55B8F0"/>
+      <stop offset="100%" stop-color="#1684D8"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Logo Emblem: Geometric Winged V -->
+  <g transform="translate(15, 10)">
+    <!-- Left Wing Feather 1 -->
+    <path d="M 12 18 L 38 72 L 48 72 L 28 22 Z" fill="url(#wingGrad)" opacity="0.95"/>
+    <!-- Left Wing Feather 2 -->
+    <path d="M 2 34 L 32 74 L 40 74 L 14 36 Z" fill="url(#wingGrad)" opacity="0.75"/>
+    <!-- Right Wing Feather 1 -->
+    <path d="M 68 18 L 42 72 L 52 72 L 78 22 Z" fill="url(#vlwGrad)"/>
+    <!-- Right Wing Feather 2 -->
+    <path d="M 78 34 L 48 74 L 56 74 L 84 36 Z" fill="url(#vlwGrad)" opacity="0.85"/>
+    <!-- Central Dynamic Core V -->
+    <path d="M 40 45 L 45 78 L 50 45 Z" fill="#1684D8"/>
+    <!-- Top Crest Node -->
+    <circle cx="45" cy="18" r="6" fill="#1684D8"/>
+    <circle cx="45" cy="18" r="3" fill="#FFFFFF"/>
+  </g>
+  
+  <!-- Typography Wordmark -->
+  <g transform="translate(108, 22)">
+    <!-- Primary Brand Title -->
+    <text x="0" y="32" font-family="'Poppins', 'Outfit', 'Segoe UI', sans-serif" font-weight="800" font-size="28" fill="#0B2D5C" letter-spacing="1.5">VELO<tspan fill="#1684D8">WINGS</tspan></text>
+    <!-- Secondary Subtitle -->
+    <text x="1" y="52" font-family="'Inter', 'Segoe UI', sans-serif" font-weight="600" font-size="10.5" fill="#526780" letter-spacing="3.2">LEARNING TECHNOLOGIES</text>
+  </g>
+</svg>

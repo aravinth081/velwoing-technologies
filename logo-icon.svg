@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="vlwGradI" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1684D8"/>
+      <stop offset="60%" stop-color="#123F7A"/>
+      <stop offset="100%" stop-color="#0B2D5C"/>
+    </linearGradient>
+    <linearGradient id="wingGradI" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#55B8F0"/>
+      <stop offset="100%" stop-color="#1684D8"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="100" height="100" rx="22" fill="#FFFFFF"/>
+  <rect width="98" height="98" x="1" y="1" rx="21" fill="none" stroke="#D6E5F3" stroke-width="2"/>
+  
+  <g transform="translate(6, 6)">
+    <!-- Left Wing Feather 1 -->
+    <path d="M 12 18 L 38 72 L 48 72 L 28 22 Z" fill="url(#wingGradI)" opacity="0.95"/>
+    <!-- Left Wing Feather 2 -->
+    <path d="M 2 34 L 32 74 L 40 74 L 14 36 Z" fill="url(#wingGradI)" opacity="0.75"/>
+    <!-- Right Wing Feather 1 -->
+    <path d="M 68 18 L 42 72 L 52 72 L 78 22 Z" fill="url(#vlwGradI)"/>
+    <!-- Right Wing Feather 2 -->
+    <path d="M 78 34 L 48 74 L 56 74 L 84 36 Z" fill="url(#vlwGradI)" opacity="0.85"/>
+    <!-- Central Dynamic Core V -->
+    <path d="M 40 45 L 45 78 L 50 45 Z" fill="#1684D8"/>
+    <!-- Top Crest Node -->
+    <circle cx="45" cy="18" r="6" fill="#1684D8"/>
+    <circle cx="45" cy="18" r="3" fill="#FFFFFF"/>
+  </g>
+</svg>
