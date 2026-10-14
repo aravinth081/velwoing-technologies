@@ -81,7 +81,9 @@
       background-color: var(--bg-main);
       color: var(--text-primary);
       font-family: var(--font-body);
-      overflow-x: clip;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
     }
 
     body {
@@ -90,6 +92,9 @@
       min-height: 100vh;
       line-height: 1.65;
       position: relative;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
     }
 
     /* Seamless scroll offset for all sections so header never covers headings */
@@ -361,6 +366,8 @@
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       text-decoration: none;
       white-space: nowrap;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     .btn-primary {
@@ -650,10 +657,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      width: 100%;
+      max-width: 100%;
     }
 
     .hero-visual-card {
       width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
       background: var(--white);
       border: 1.5px solid var(--border-color);
       border-radius: var(--radius-xl);
@@ -667,6 +678,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
       margin-bottom: 24px;
       padding-bottom: 16px;
       border-bottom: 1px solid var(--border-light);
@@ -676,11 +688,15 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      min-width: 0;
+      flex: 1;
+      overflow: hidden;
     }
 
     .visual-brand-tag svg {
       width: 24px;
       height: 24px;
+      flex-shrink: 0;
     }
 
     .visual-brand-title {
@@ -688,6 +704,9 @@
       font-size: 0.92rem;
       font-weight: 700;
       color: var(--navy-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .visual-live-indicator {
@@ -700,6 +719,8 @@
       border-radius: var(--radius-pill);
       font-size: 0.72rem;
       font-weight: 600;
+      flex-shrink: 0;
+      white-space: nowrap;
     }
 
     .live-dot-pulse {
@@ -707,6 +728,7 @@
       height: 6px;
       background: #16A34A;
       border-radius: 50%;
+      flex-shrink: 0;
     }
 
     .visual-preview-body {
@@ -742,16 +764,19 @@
 
     .visual-metrics-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
+      width: 100%;
     }
 
     .visual-metric-box {
       background: var(--white);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
-      padding: 12px;
+      padding: 12px 6px;
       text-align: center;
+      min-width: 0;
+      overflow: hidden;
     }
 
     .metric-val {
@@ -759,6 +784,9 @@
       font-size: 1.15rem;
       font-weight: 700;
       color: var(--navy-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .metric-lbl {
@@ -766,6 +794,9 @@
       font-weight: 500;
       color: var(--text-muted);
       margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* Abstract decorative shapes behind hero card */
@@ -2245,10 +2276,10 @@
         display: flex;
       }
       .section {
-        padding: 60px 0;
+        padding: 56px 0;
       }
       .hero {
-        padding: 105px 0 60px 0;
+        padding: 96px 0 54px 0;
       }
       .hero-title {
         font-size: 2.15rem;
@@ -2284,47 +2315,148 @@
       }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       .container {
         padding: 0 16px;
       }
-      .header-inner {
-        height: 64px;
-        padding: 0 4px;
-      }
-      .brand-logo-wrap {
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
-      }
-      .brand-name {
-        font-size: 1.1rem;
-      }
-      .brand-sub {
-        font-size: 0.58rem;
-        letter-spacing: 1px;
-      }
-      .header .btn {
-        width: auto !important;
-        padding: 8px 14px;
-        font-size: 12.5px;
-        white-space: nowrap;
-      }
       .hero {
-        padding: 86px 0 48px 0;
+        padding: 88px 0 44px 0;
+      }
+      .hero-grid {
+        gap: 32px;
       }
       .hero-title {
-        font-size: clamp(1.85rem, 6.5vw, 2.25rem);
+        font-size: clamp(1.8rem, 6.8vw, 2.2rem);
+        line-height: 1.25;
       }
-      .hero-sub {
+      .hero-subheading {
+        font-size: 1.08rem;
+        line-height: 1.35;
+        margin-bottom: 12px;
+      }
+      .hero-desc {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 24px;
+      }
+      .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+        align-items: stretch;
+      }
+      .hero-actions .btn {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        white-space: normal;
+        padding: 13px 20px;
         font-size: 0.95rem;
       }
-      .hero-metrics {
-        grid-template-columns: 1fr 1fr;
+      .hero-visual {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+      }
+      .shape-blob-1, .shape-blob-2 {
+        display: none !important;
+      }
+      .hero-visual-card {
+        padding: 20px 16px;
+        border-radius: 18px;
+        box-shadow: var(--shadow-md);
+      }
+      .visual-top-bar {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        gap: 8px;
+      }
+      .visual-brand-tag {
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
+      }
+      .visual-brand-title {
+        font-size: 0.78rem;
+      }
+      .visual-live-indicator {
+        padding: 3px 8px;
+        font-size: 0.68rem;
+        gap: 5px;
+        flex-shrink: 0;
+      }
+      .visual-preview-body {
+        padding: 16px 14px;
+        margin-bottom: 16px;
+      }
+      .preview-title {
+        font-size: 1.12rem;
+        line-height: 1.35;
+      }
+      .preview-text {
+        font-size: 0.84rem;
+        line-height: 1.5;
+      }
+      .visual-metrics-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        width: 100%;
+      }
+      .visual-metric-box {
+        padding: 10px 4px;
+        border-radius: 8px;
+        min-width: 0;
+      }
+      .metric-val {
+        font-size: 0.95rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .metric-lbl {
+        font-size: 0.68rem;
+        letter-spacing: -0.2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .cert-features-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 24px;
+        padding-top: 20px;
+      }
+      .about-pillars {
+        grid-template-columns: 1fr;
         gap: 12px;
       }
-      .cert-card-preview {
-        padding: 16px 14px;
+      .cert-inputs-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .btn-generate-cert {
+        width: 100%;
+        min-height: 48px;
+      }
+      .webinar-action-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+      }
+      .webinar-action-row .btn {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+      }
+      .webinar-title {
+        font-size: 1.7rem;
+        line-height: 1.25;
+      }
+      .contact-form-card, .contact-info-card {
+        padding: 24px 18px;
+      }
+      .contact-form .btn {
+        width: 100%;
       }
       .modal-container {
         width: 95vw;
@@ -2339,7 +2471,7 @@
         font-size: 1.05rem;
       }
       .modal-body {
-        padding: 14px 14px;
+        padding: 14px;
       }
       .modal-footer {
         padding: 14px 16px;
@@ -2355,45 +2487,77 @@
         width: 100% !important;
         justify-content: center;
       }
-    }
-
-    @media (max-width: 640px) {
-      .cert-inputs-grid {
+      .cert-align-grid {
         grid-template-columns: 1fr;
-        gap: 14px;
-      }
-      .btn-generate-cert {
-        width: 100%;
-        min-height: 48px;
+        gap: 12px;
       }
     }
 
     @media (max-width: 480px) {
-      .hero-actions {
-        flex-direction: column;
-        width: 100%;
+      .container {
+        padding: 0 14px;
       }
-      .hero-actions .btn {
-        width: 100%;
+      .header-inner {
+        height: 62px;
+        padding: 0 2px;
       }
-      .cert-inputs-grid {
-        grid-template-columns: 1fr;
-        gap: 14px;
+      .brand-logo-wrap {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
       }
-      .btn-generate-cert {
-        width: 100%;
-        min-height: 48px;
+      .brand-name {
+        font-size: 1.05rem;
       }
-      .cert-features-row {
-        grid-template-columns: 1fr;
-        gap: 10px;
+      .brand-sub {
+        font-size: 0.54rem;
+        letter-spacing: 0.8px;
       }
-      .about-pillars {
-        grid-template-columns: 1fr;
+      .hero {
+        padding: 78px 0 36px 0;
+      }
+      .hero-visual-card {
+        padding: 14px 12px;
+        border-radius: 16px;
+      }
+      .visual-brand-title {
+        font-size: 0.74rem;
+      }
+      .visual-live-indicator {
+        font-size: 0.65rem;
+        padding: 2.5px 7px;
+      }
+      .visual-metrics-grid {
+        gap: 6px;
+      }
+      .visual-metric-box {
+        padding: 8px 2px;
+      }
+      .metric-val {
+        font-size: 0.88rem;
+      }
+      .metric-lbl {
+        font-size: 0.64rem;
+      }
+      .webinar-card {
+        padding: 20px 14px;
+      }
+      .webinar-title {
+        font-size: 1.45rem;
+      }
+      .info-block {
+        padding: 16px 14px;
         gap: 12px;
       }
-      .contact-form .btn {
-        width: 100%;
+      .info-block-icon {
+        width: 44px;
+        height: 44px;
+      }
+      .info-block-value {
+        font-size: 1.1rem;
+      }
+      .cert-box {
+        padding: 20px 14px;
       }
     }
   </style>
@@ -2506,7 +2670,7 @@
 
             <div class="hero-actions">
               <a href="#learning" class="btn btn-primary btn-lg">Explore Learning</a>
-              <a href="#about" class="btn btn-secondary btn-lg">Discover VELOWINGS LEARNING TECHNOLOGIES</a>
+              <a href="#about" class="btn btn-secondary btn-lg">Discover Velowings</a>
             </div>
           </div>
 
