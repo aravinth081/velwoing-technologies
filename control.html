@@ -2793,8 +2793,8 @@
 
     async function clearAllDemoData() {
       const res = await Swal.fire({
-        title: 'Clear All Local Data?',
-        text: 'This will reset all locally cached participants, dummy keys, and preview records to a clean zero state.',
+        title: 'Clear All Portal Data?',
+        text: 'This will permanently reset all registered participants, certificates, winner/judge claims, and caches in both cloud database and local storage to a clean zero state.',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Yes, reset all',
@@ -2803,6 +2803,14 @@
         color: '#0B2D5C'
       });
       if (!res.isConfirmed) return;
+
+      Swal.fire({
+        title: 'Clearing Data...',
+        text: 'Purging cloud records and resetting overview...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
       parts = [];
       genCerts = [];
       winnerClaims = [];
@@ -2811,6 +2819,32 @@
       try {
         localStorage.removeItem('registered_participants');
       } catch(e) {}
+
+      if (db) {
+        try {
+          const collections = ['certificates', 'winner_certificates', 'judge_certificates', 'participants'];
+          for (const col of collections) {
+            const snap = await db.collection(col).get();
+            let batch = db.batch();
+            let count = 0;
+            for (const doc of snap.docs) {
+              batch.delete(doc.ref);
+              count++;
+              if (count % 400 === 0) {
+                await batch.commit();
+                batch = db.batch();
+              }
+            }
+            if (count % 400 !== 0) {
+              await batch.commit();
+            }
+          }
+          await db.collection('admin').doc('participants_index').delete().catch(() => {});
+        } catch(e) {
+          console.warn('Cloud purge warning:', e);
+        }
+      }
+
       updateStats();
       renderPartsTable();
       renderRecentTable();
@@ -2820,7 +2854,7 @@
       renderCharts();
       Swal.fire({
         title: 'Cleaned!',
-        text: 'All dummy and cached records have been cleared.',
+        text: 'All records and dummy entries have been permanently cleared.',
         icon: 'success',
         background: '#FFFFFF',
         color: '#0B2D5C'
@@ -2951,7 +2985,7 @@
       const { value: text } = await Swal.fire({
         title: '📋 Bulk Import Judges',
         html: `<p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Paste judge names & secret codes (e.g. <code>1. **Name** — CODE</code> or <code>Name - CODE</code>):</p>
-<textarea id="bulk-judge-text" rows="10" style="width:100%;background:#091220;color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px;font-family:'Space Mono',monospace;font-size:13px;" placeholder="1. **Karthickkumar S** — INNOVATIONHACKS4827\n2. **Suraj Devatha** — INNOVATIONHACKS7315\n3. **Preethi Bharathy** — INNOVATIONHACKS2946"></textarea>`,
+<textarea id="bulk-judge-text" rows="10" style="width:100%;background:#091220;color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px;font-family:'Space Mono',monospace;font-size:13px;" placeholder="1. **Judge Name 1** — VELOWINGS-JUD-101\n2. **Judge Name 2** — VELOWINGS-JUD-102\n3. **Judge Name 3** — VELOWINGS-JUD-103"></textarea>`,
         showCancelButton: true,
         confirmButtonText: '📥 Import All Judges',
         background: '#0a1628',
