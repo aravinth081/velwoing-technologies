@@ -76,6 +76,10 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    button, input, select, textarea {
+      font-family: var(--font-body);
+    }
+
     html {
       scroll-behavior: smooth;
       background-color: var(--bg-main);
@@ -1493,6 +1497,14 @@
       line-height: 1.55;
       margin-bottom: 12px;
       color: #475569;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .cert-alert-desc strong {
+      word-break: break-all;
+      overflow-wrap: anywhere;
+      color: #0B2D5C;
     }
 
     .cert-alert-guidance {
@@ -1506,6 +1518,8 @@
       gap: 6px;
       font-size: 0.83rem;
       color: #64748B;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     .cert-alert-guidance-item {
@@ -1528,8 +1542,9 @@
     }
 
     .btn-alert-retry {
-      padding: 8px 18px;
+      padding: 9px 18px;
       border-radius: var(--radius-sm);
+      font-family: var(--font-body) !important;
       font-size: 0.86rem;
       font-weight: 600;
       background: #DC2626;
@@ -1537,6 +1552,9 @@
       border: none;
       cursor: pointer;
       transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .btn-alert-retry:hover {
@@ -1544,8 +1562,9 @@
     }
 
     .btn-alert-contact {
-      padding: 7px 16px;
+      padding: 8px 16px;
       border-radius: var(--radius-sm);
+      font-family: var(--font-body) !important;
       font-size: 0.86rem;
       font-weight: 600;
       background: #FFFFFF;
@@ -1554,6 +1573,7 @@
       text-decoration: none;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
       transition: all 0.2s;
     }
@@ -2490,6 +2510,20 @@
       .cert-align-grid {
         grid-template-columns: 1fr;
         gap: 12px;
+      }
+      .cert-alert-box {
+        padding: 16px 14px !important;
+        gap: 12px !important;
+      }
+      .cert-alert-btn-row {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
+      }
+      .btn-alert-retry, .btn-alert-contact {
+        width: 100% !important;
+        justify-content: center !important;
+        text-align: center !important;
       }
     }
 
@@ -3696,7 +3730,7 @@
               <div class="cert-alert-pill">Verification Failed</div>
               <h4 class="cert-alert-headline">Not Registered</h4>
               <p class="cert-alert-desc">
-                The email address <strong>${cleanEmail}</strong> was not found in our verified participant database.
+                The email address <strong style="word-break: break-all; overflow-wrap: anywhere; display: inline-block;">${cleanEmail}</strong> was not found in our verified participant database.
                 Certificates can only be generated for participants whose email IDs are fed into the <strong>Admin Panel</strong>.
               </p>
               <div class="cert-alert-guidance">

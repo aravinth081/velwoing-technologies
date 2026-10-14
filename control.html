@@ -9,7 +9,7 @@
   <link rel="alternate icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Firebase, XLSX, Charts, JSZip, jsPDF, SweetAlert2 -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -574,13 +574,15 @@
       gap: 8px;
       padding: 10px 18px;
       border-radius: 10px;
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
       border: none;
       transition: all 0.2s;
       text-decoration: none;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     .btn-gold {
@@ -712,6 +714,51 @@
       display: flex;
       justify-content: flex-end;
       gap: 10px;
+    }
+
+    .intake-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+
+    .part-inputs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+      width: 100%;
+    }
+
+    .settings-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      width: 100%;
+    }
+
+    .settings-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      width: 100%;
+    }
+
+    .strict-banner {
+      background: rgba(22, 132, 216, 0.08);
+      border: 1.5px solid rgba(22, 132, 216, 0.25);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     /* ── TEMPLATE UPLOAD CARDS ── */
@@ -1162,6 +1209,51 @@
         align-items: stretch !important;
         gap: 10px !important;
       }
+      .part-tab-row {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+      }
+      .intake-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
+      .part-inputs-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+      .part-inputs-grid .fg {
+        width: 100% !important;
+      }
+      .part-inputs-grid input {
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .strict-banner {
+        padding: 12px 14px !important;
+        gap: 10px !important;
+      }
+      .strict-banner > div {
+        flex: 1 1 100% !important;
+      }
+      .roster-actions {
+        width: 100% !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 8px !important;
+      }
+      .roster-actions input {
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .roster-actions .btn {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+      .settings-grid-3, .settings-grid-4 {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
       #partSearchInput {
         width: 100% !important;
       }
@@ -1189,7 +1281,10 @@
         display: none !important;
       }
       .card-title {
-        font-size: 15px !important;
+        font-size: 14.5px !important;
+      }
+      .content-card {
+        padding: 14px 12px !important;
       }
     }
   </style>
@@ -1432,25 +1527,25 @@
 
           <!-- PARTICIPANTS -->
           <div id="p-participants" class="panel">
-            <div style="background: rgba(22, 132, 216, 0.08); border: 1.5px solid rgba(22, 132, 216, 0.25); border-radius: 12px; padding: 14px 18px; margin-bottom: 22px; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 22px;">🔒</span>
-                <div>
+            <div class="strict-banner">
+              <div style="display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1;">
+                <span style="font-size: 22px; flex-shrink: 0;">🔒</span>
+                <div style="min-width: 0;">
                   <strong style="color: var(--navy); font-size: 13.5px; display: block;">Strict Certificate Access Enforced</strong>
-                  <span style="color: var(--muted); font-size: 12px;">Only participants whose email IDs are fed into this roster are permitted to generate certificates on the public portal. Unregistered users receive a <em>"Not Registered"</em> notice.</span>
+                  <span style="color: var(--muted); font-size: 12px; line-height: 1.5; display: block;">Only participants whose email IDs are fed into this roster are permitted to generate certificates on the public portal. Unregistered users receive a <em>"Not Registered"</em> notice.</span>
                 </div>
               </div>
-              <span class="badge" style="background: #10B981; color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: 700;">ACTIVE GATEWAY</span>
+              <span class="badge" style="background: #10B981; color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: 700; flex-shrink: 0;">ACTIVE GATEWAY</span>
             </div>
             <!-- DUAL INTAKE: Manual Entry / Bulk Paste + Spreadsheet Upload -->
-            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:20px;margin-bottom:24px;">
+            <div class="intake-grid">
               
               <!-- Quick Manual / Bulk Text Card -->
               <div class="content-card" style="margin-bottom:0;display:flex;flex-direction:column;justify-content:space-between;">
                 <div>
-                  <div class="flex-between" style="margin-bottom:12px;">
+                  <div class="flex-between part-tab-row" style="margin-bottom:12px;">
                     <div class="card-title" style="margin-bottom:0;font-size:15px;">➕ Add Participant Entry</div>
-                    <div style="display:flex;gap:6px;">
+                    <div style="display:flex;gap:6px;flex-shrink:0;">
                       <button type="button" class="btn btn-outline" id="tab-btn-single" onclick="switchPartTab('single')" style="padding:4px 10px;font-size:11px;background:rgba(6,182,212,0.15);border-color:var(--gold);color:var(--gold);">Single</button>
                       <button type="button" class="btn btn-outline" id="tab-btn-bulk" onclick="switchPartTab('bulk')" style="padding:4px 10px;font-size:11px;">Bulk Paste</button>
                     </div>
@@ -1459,7 +1554,7 @@
                   <!-- Single Participant Form -->
                   <div id="part-form-single">
                     <p style="color:var(--muted);font-size:12px;margin-bottom:14px;">Directly register a participant with their full name and email address.</p>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+                    <div class="part-inputs-grid">
                       <div class="fg" style="margin-bottom:0;">
                         <label style="font-size:11.5px;">Participant Full Name *</label>
                         <input type="text" id="manualPartName" placeholder="e.g. Aravinth S" onkeydown="if(event.key==='Enter')addManualPart()">
@@ -1477,7 +1572,7 @@
                   <!-- Bulk Paste Form -->
                   <div id="part-form-bulk" style="display:none;">
                     <p style="color:var(--muted);font-size:12px;margin-bottom:10px;">Paste list of names and emails (one per line, format: <code>Name, Email</code>):</p>
-                    <textarea id="bulkPartText" rows="4" style="width:100%;background:rgba(2,6,23,0.7);border:1px solid var(--border);border-radius:8px;padding:10px;color:#fff;font-family:'Space Mono',monospace;font-size:12px;resize:vertical;margin-bottom:12px;" placeholder="John Doe, john@example.com&#10;Priya Sharma, priya@example.com&#10;Karthick S, karthick@gmail.com"></textarea>
+                    <textarea id="bulkPartText" rows="4" style="width:100%;box-sizing:border-box;background:rgba(2,6,23,0.7);border:1px solid var(--border);border-radius:8px;padding:10px;color:#fff;font-family:'Space Mono',monospace;font-size:12px;resize:vertical;margin-bottom:12px;" placeholder="John Doe, john@example.com&#10;Priya Sharma, priya@example.com&#10;Karthick S, karthick@gmail.com"></textarea>
                     <div class="flex-end">
                       <button type="button" class="btn btn-gold" onclick="importBulkText()" style="padding:8px 20px;font-size:13px;">⚡ Import Pasted Roster</button>
                     </div>
@@ -1486,7 +1581,7 @@
               </div>
 
               <!-- Spreadsheet Drop Zone -->
-              <div class="drop-zone" onclick="document.getElementById('fileInput').click()" style="margin-bottom:0;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:190px;">
+              <div class="drop-zone" onclick="document.getElementById('fileInput').click()" style="margin-bottom:0;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:170px;">
                 <h4 style="margin-bottom:6px;">📁 Import Spreadsheet (.xlsx / .csv)</h4>
                 <p style="margin-bottom:6px;font-size:12.5px;">Upload Unstop participant roster file</p>
                 <span style="font-size:11px;color:var(--gold);">Required columns: <strong>Name</strong> and <strong>Email</strong></span>
@@ -1498,8 +1593,8 @@
               <div class="flex-between" style="flex-wrap:wrap;gap:12px;">
                 <div class="card-title" style="margin-bottom:0">Participant Roster &nbsp;<span id="p-count"
                     style="color:var(--gold);font-size:13px;"></span></div>
-                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                  <input type="text" id="partSearchInput" placeholder="🔍 Search by name or email..." oninput="filterPartsTable(this.value)" style="padding:6px 14px;font-size:12px;background:rgba(2,6,23,0.7);border:1px solid var(--border);border-radius:8px;color:#fff;width:240px;">
+                <div class="roster-actions" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                  <input type="text" id="partSearchInput" placeholder="🔍 Search by name or email..." oninput="filterPartsTable(this.value)" style="padding:6px 14px;font-size:12px;background:rgba(2,6,23,0.7);border:1px solid var(--border);border-radius:8px;color:#fff;width:240px;box-sizing:border-box;">
                   <button class="btn btn-danger" onclick="clearParts()">🗑 Clear All</button>
                 </div>
               </div>
@@ -1787,7 +1882,7 @@
             <div class="content-card">
               <div class="card-title">Cloud Storage Configuration (Cloudinary &amp; ImgBB)</div>
               <p style="color:var(--muted);font-size:13px;margin-bottom:20px;">Direct asset cloud storage for templates and signatures. Direct unsigned upload configured (no folder restrictions).</p>
-              <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px,1fr));gap:16px;">
+              <div class="settings-grid-3">
                 <div class="fg"><label>Cloud Name</label><input type="text" id="cloudName" placeholder="utmjfg3s" value="utmjfg3s"></div>
                 <div class="fg"><label>Upload Preset (Unsigned)</label><input type="text" id="uploadPreset" placeholder="velwing tech" value="velwing tech"></div>
                 <div class="fg"><label>ImgBB API Key (Optional Fallback)</label><input type="text" id="imgbbKey" placeholder="Optional ImgBB API key"></div>
@@ -1799,7 +1894,7 @@
             <div class="content-card">
               <div class="card-title">📊 Website Stats (Displayed on Homepage)</div>
               <p style="color:var(--muted);font-size:13px;margin-bottom:20px;">Configure the live stats shown on the main website homepage. Only saved values will be displayed — no hardcoded dummy data.</p>
-              <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px,1fr));gap:16px;">
+              <div class="settings-grid-4">
                 <div class="fg"><label>👥 Participants Count</label><input type="number" id="stat-participants" placeholder="349" min="0"></div>
                 <div class="fg"><label>🌍 Participating Nations</label><input type="number" id="stat-nations" placeholder="150" min="0"></div>
                 <div class="fg"><label>🎯 Official Themes</label><input type="number" id="stat-themes" placeholder="6" min="0"></div>
